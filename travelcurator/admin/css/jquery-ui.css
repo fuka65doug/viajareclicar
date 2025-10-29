@@ -1,0 +1,216 @@
+/**
+ * jQuery UI CSS - Basic Styles for Datepicker
+ * Custom minimal version for TravelCurator Plugin
+ */
+
+.ui-widget {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+}
+
+.ui-widget-content {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+.ui-widget-header {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #333;
+    font-weight: bold;
+}
+
+.ui-datepicker {
+    width: 280px;
+    padding: 10px;
+    display: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+
+.ui-datepicker .ui-datepicker-header {
+    position: relative;
+    padding: 10px 0;
+    background: #007bff;
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+    margin: -10px -10px 10px;
+}
+
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+    position: absolute;
+    top: 8px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+}
+
+.ui-datepicker .ui-datepicker-prev {
+    left: 8px;
+}
+
+.ui-datepicker .ui-datepicker-next {
+    right: 8px;
+}
+
+.ui-datepicker .ui-datepicker-prev:hover,
+.ui-datepicker .ui-datepicker-next:hover {
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+}
+
+.ui-datepicker .ui-datepicker-prev span,
+.ui-datepicker .ui-datepicker-next span {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+}
+
+.ui-datepicker .ui-datepicker-prev span::before {
+    content: "◀";
+    color: #fff;
+}
+
+.ui-datepicker .ui-datepicker-next span::before {
+    content: "▶";
+    color: #fff;
+}
+
+.ui-datepicker .ui-datepicker-title {
+    text-align: center;
+    line-height: 30px;
+    color: #fff;
+}
+
+.ui-datepicker table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.ui-datepicker th {
+    padding: 8px 0;
+    text-align: center;
+    font-weight: bold;
+    color: #666;
+    font-size: 12px;
+}
+
+.ui-datepicker td {
+    padding: 2px;
+}
+
+.ui-datepicker td span,
+.ui-datepicker td a {
+    display: block;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    border-radius: 4px;
+}
+
+.ui-datepicker td a:hover {
+    background: #f0f0f0;
+}
+
+.ui-datepicker td .ui-state-active {
+    background: #007bff;
+    color: #fff;
+}
+
+.ui-datepicker td .ui-state-highlight {
+    background: #fef6e6;
+    color: #333;
+}
+
+.ui-datepicker .ui-datepicker-unselectable .ui-state-default {
+    color: #ccc;
+    cursor: default;
+}
+
+.ui-datepicker .ui-datepicker-other-month .ui-state-default {
+    color: #ccc;
+}
+
+/* Helper classes */
+.ui-helper-hidden {
+    display: none;
+}
+
+.ui-helper-hidden-accessible {
+    position: absolute;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px,1px,1px,1px);
+}
+
+.ui-helper-clearfix::before,
+.ui-helper-clearfix::after {
+    content: "";
+    display: table;
+}
+
+.ui-helper-clearfix::after {
+    clear: both;
+}
+
+/* State classes */
+.ui-state-default {
+    border: 1px solid transparent;
+}
+
+.ui-state-hover,
+.ui-state-focus {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+}
+
+.ui-state-active {
+    background: #007bff;
+    color: #fff;
+    border: 1px solid #0056b3;
+}
+
+.ui-state-highlight {
+    background: #fef6e6;
+    border: 1px solid #f59e0b;
+}
+
+.ui-state-disabled {
+    opacity: 0.35;
+    cursor: default !important;
+    pointer-events: none;
+}
+
+/* Corner radius */
+.ui-corner-all {
+    border-radius: 4px;
+}
+
+/* Icons */
+.ui-icon {
+    display: block;
+    text-indent: -99999px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .ui-datepicker {
+        width: 260px;
+        font-size: 13px;
+    }
+    
+    .ui-datepicker td span,
+    .ui-datepicker td a {
+        padding: 6px;
+    }
+}

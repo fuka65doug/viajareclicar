@@ -1,0 +1,909 @@
+# TravelCurator Plugin Translation File
+# Copyright (C) 2025 TravelCurator
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: TravelCurator 1.0.0\n"
+"Report-Msgid-Bugs-To: https://viajareclicar.com.br\n"
+"POT-Creation-Date: 2025-01-20 10:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: admin/class-travelcurator-admin.php:50
+msgid "TravelCurator"
+msgstr ""
+
+#: admin/class-travelcurator-admin.php:51
+msgid "Dashboard"
+msgstr ""
+
+#: admin/class-travelcurator-admin.php:52
+msgid "Leads"
+msgstr ""
+
+#: admin/class-travelcurator-admin.php:53
+msgid "Settings"
+msgstr ""
+
+#: admin/class-travelcurator-admin.php:54
+msgid "Notifications"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-dashboard.php:15
+msgid "Active Packages"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-dashboard.php:22
+msgid "Total Leads"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-dashboard.php:29
+msgid "Leads This Month"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-dashboard.php:36
+msgid "Conversion Rate"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-leads.php:25
+msgid "Manage Leads"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-leads.php:28
+msgid "Export CSV"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-leads.php:45
+msgid "All Statuses"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-leads.php:55
+msgid "All Packages"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-leads.php:67
+msgid "Search name, email or phone..."
+msgstr ""
+
+#: admin/partials/travelcurator-admin-leads.php:72
+msgid "Filter"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-leads.php:75
+msgid "Clear"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:20
+msgid "TravelCurator Settings"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:24
+msgid "General"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:27
+msgid "Email"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:30
+msgid "WhatsApp"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:33
+msgid "SEO"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:36
+msgid "Integrations"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:39
+msgid "Advanced"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:49
+msgid "General Settings"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:54
+msgid "Company Name"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:58
+msgid "Your travel agency name"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:64
+msgid "Company Logo"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:78
+msgid "Upload Logo"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:81
+msgid "Remove Logo"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:90
+msgid "Contact Email"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:94
+msgid "Main email to receive leads"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:100
+msgid "Contact Phone"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:104
+msgid "Main phone (format: +55 11 99999-9999)"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:110
+msgid "Default Currency"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:113
+msgid "Brazilian Real (R$)"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:114
+msgid "US Dollar (US$)"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:115
+msgid "Euro (€)"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:122
+msgid "Enable Reviews"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:125
+msgid "Allow customers to review packages"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:131
+msgid "Enable Wishlist"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-settings.php:134
+msgid "Allow users to save favorite packages"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-notifications.php:25
+msgid "Notifications"
+msgstr ""
+
+#: admin/partials/travelcurator-admin-notifications.php:28
+msgid "Mark All as Read"
+msgstr ""
+
+#: includes/class-travelcurator-post-types.php:25
+msgid "Travel Packages"
+msgstr ""
+
+#: includes/class-travelcurator-post-types.php:26
+msgid "Travel Package"
+msgstr ""
+
+#: includes/class-travelcurator-post-types.php:27
+msgid "Add New Package"
+msgstr ""
+
+#: includes/class-travelcurator-post-types.php:28
+msgid "Add New"
+msgstr ""
+
+#: includes/class-travelcurator-post-types.php:29
+msgid "Edit Package"
+msgstr ""
+
+#: includes/class-travelcurator-post-types.php:30
+msgid "New Package"
+msgstr ""
+
+#: includes/class-travelcurator-post-types.php:31
+msgid "View Package"
+msgstr ""
+
+#: includes/class-travelcurator-post-types.php:32
+msgid "View Packages"
+msgstr ""
+
+#: includes/class-travelcurator-post-types.php:33
+msgid "Search Packages"
+msgstr ""
+
+#: includes/class-travelcurator-post-types.php:34
+msgid "No packages found"
+msgstr ""
+
+#: includes/class-travelcurator-post-types.php:35
+msgid "No packages found in Trash"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:25
+msgid "Travel Categories"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:26
+msgid "Travel Category"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:27
+msgid "All Categories"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:28
+msgid "Parent Category"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:29
+msgid "Parent Category:"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:30
+msgid "New Category Name"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:31
+msgid "Add New Category"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:32
+msgid "Edit Category"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:33
+msgid "Update Category"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:50
+msgid "Travel Destinations"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:51
+msgid "Travel Destination"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:52
+msgid "All Destinations"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:75
+msgid "Emotional Purposes"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:76
+msgid "Emotional Purpose"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:77
+msgid "All Purposes"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:100
+msgid "Travel Amenities"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:101
+msgid "Travel Amenity"
+msgstr ""
+
+#: includes/class-travelcurator-taxonomies.php:102
+msgid "All Amenities"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:30
+msgid "Package Information"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:40
+msgid "Package Details"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:50
+msgid "Accommodation"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:60
+msgid "Gallery"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:70
+msgid "Itinerary"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:80
+msgid "Reviews"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:95
+msgid "Price"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:100
+msgid "Duration"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:105
+msgid "Difficulty"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:108
+msgid "Easy"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:109
+msgid "Moderate"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:110
+msgid "Hard"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:115
+msgid "Location"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:120
+msgid "Start Date"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:125
+msgid "End Date"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:130
+msgid "Status"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:133
+msgid "Active"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:134
+msgid "Inactive"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:135
+msgid "Draft"
+msgstr ""
+
+#: includes/class-travelcurator-meta-boxes.php:136
+msgid "Sold Out"
+msgstr ""
+
+#: includes/elementor/widgets/travel-packages-grid.php:25
+msgid "Travel Packages - Grid"
+msgstr ""
+
+#: includes/elementor/widgets/travel-package-details.php:25
+msgid "Package Details"
+msgstr ""
+
+#: includes/elementor/widgets/travel-search-filter.php:25
+msgid "Search Filters"
+msgstr ""
+
+#: includes/elementor/widgets/travel-lead-form.php:25
+msgid "Lead Form"
+msgstr ""
+
+#: public/class-travelcurator-public.php:150
+msgid "Request Quote"
+msgstr ""
+
+#: public/class-travelcurator-public.php:155
+msgid "View Details"
+msgstr ""
+
+#: public/class-travelcurator-public.php:160
+msgid "Add to Wishlist"
+msgstr ""
+
+#: single-travel_package.php:85
+msgid "About this Package"
+msgstr ""
+
+#: single-travel_package.php:95
+msgid "Photo Gallery"
+msgstr ""
+
+#: single-travel_package.php:115
+msgid "Detailed Itinerary"
+msgstr ""
+
+#: single-travel_package.php:140
+msgid "Accommodation"
+msgstr ""
+
+#: single-travel_package.php:165
+msgid "What's Included"
+msgstr ""
+
+#: single-travel_package.php:175
+msgid "What's Not Included"
+msgstr ""
+
+#: single-travel_package.php:200
+msgid "Quick Information"
+msgstr ""
+
+#: single-travel_package.php:205
+msgid "Period"
+msgstr ""
+
+#: single-travel_package.php:213
+msgid "Duration"
+msgstr ""
+
+#: single-travel_package.php:221
+msgid "Difficulty"
+msgstr ""
+
+#: single-travel_package.php:235
+msgid "Emotional Purpose"
+msgstr ""
+
+#: single-travel_package.php:249
+msgid "Amenities"
+msgstr ""
+
+#: single-travel_package.php:265
+msgid "per person"
+msgstr ""
+
+#: single-travel_package.php:270
+msgid "Request Quote"
+msgstr ""
+
+#: single-travel_package.php:273
+msgid "Share on WhatsApp"
+msgstr ""
+
+#: single-travel_package.php:280
+msgid "Related Packages"
+msgstr ""
+
+#: single-travel_package.php:320
+msgid "Request Quote"
+msgstr ""
+
+#: single-travel_package.php:325
+msgid "Full Name"
+msgstr ""
+
+#: single-travel_package.php:335
+msgid "Email"
+msgstr ""
+
+#: single-travel_package.php:345
+msgid "Phone/WhatsApp"
+msgstr ""
+
+#: single-travel_package.php:355
+msgid "Number of Travelers"
+msgstr ""
+
+#: single-travel_package.php:358
+msgid "1 person"
+msgstr ""
+
+#: single-travel_package.php:359
+msgid "2 people"
+msgstr ""
+
+#: single-travel_package.php:360
+msgid "3 people"
+msgstr ""
+
+#: single-travel_package.php:361
+msgid "4 people"
+msgstr ""
+
+#: single-travel_package.php:362
+msgid "5+ people"
+msgstr ""
+
+#: single-travel_package.php:369
+msgid "Additional Message"
+msgstr ""
+
+#: single-travel_package.php:375
+msgid "Cancel"
+msgstr ""
+
+#: single-travel_package.php:378
+msgid "Send Request"
+msgstr ""
+
+#: archive-travel_package.php:25
+msgid "Our Travel Packages"
+msgstr ""
+
+#: archive-travel_package.php:35
+msgid "Discover unique and transformative experiences around the world"
+msgstr ""
+
+#: archive-travel_package.php:45
+msgid "Filters"
+msgstr ""
+
+#: archive-travel_package.php:55
+msgid "Price Range"
+msgstr ""
+
+#: archive-travel_package.php:70
+msgid "Duration"
+msgstr ""
+
+#: archive-travel_package.php:74
+msgid "1-3 days"
+msgstr ""
+
+#: archive-travel_package.php:75
+msgid "4-7 days"
+msgstr ""
+
+#: archive-travel_package.php:76
+msgid "8-14 days"
+msgstr ""
+
+#: archive-travel_package.php:77
+msgid "More than 15 days"
+msgstr ""
+
+#: archive-travel_package.php:85
+msgid "Difficulty"
+msgstr ""
+
+#: archive-travel_package.php:88
+msgid "Easy"
+msgstr ""
+
+#: archive-travel_package.php:91
+msgid "Moderate"
+msgstr ""
+
+#: archive-travel_package.php:94
+msgid "Hard"
+msgstr ""
+
+#: archive-travel_package.php:102
+msgid "Categories"
+msgstr ""
+
+#: archive-travel_package.php:115
+msgid "Destinations"
+msgstr ""
+
+#: archive-travel_package.php:128
+msgid "Emotional Purpose"
+msgstr ""
+
+#: archive-travel_package.php:145
+msgid "Filter"
+msgstr ""
+
+#: archive-travel_package.php:148
+msgid "Clear"
+msgstr ""
+
+#: archive-travel_package.php:165
+msgid "packages found"
+msgstr ""
+
+#: archive-travel_package.php:172
+msgid "Most Recent"
+msgstr ""
+
+#: archive-travel_package.php:173
+msgid "Lowest Price"
+msgstr ""
+
+#: archive-travel_package.php:174
+msgid "Highest Price"
+msgstr ""
+
+#: archive-travel_package.php:175
+msgid "Name A-Z"
+msgstr ""
+
+#: archive-travel_package.php:176
+msgid "Most Popular"
+msgstr ""
+
+#: archive-travel_package.php:180
+msgid "Grid View"
+msgstr ""
+
+#: archive-travel_package.php:184
+msgid "List View"
+msgstr ""
+
+#: archive-travel_package.php:265
+msgid "No packages found"
+msgstr ""
+
+#: archive-travel_package.php:268
+msgid "Try adjusting the search filters."
+msgstr ""
+
+#: archive-travel_package.php:270
+msgid "Clear Filters"
+msgstr ""
+
+#. Common form elements
+msgid "Name"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Clear"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Active"
+msgstr ""
+
+msgid "Inactive"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Loading..."
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Warning"
+msgstr ""
+
+msgid "Information"
+msgstr ""
+
+#. Lead statuses
+msgid "New"
+msgstr ""
+
+msgid "Contacted"
+msgstr ""
+
+msgid "Qualified"
+msgstr ""
+
+msgid "Proposal Sent"
+msgstr ""
+
+msgid "Converted"
+msgstr ""
+
+msgid "Lost"
+msgstr ""
+
+#. Common phrases
+msgid "from"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid "or"
+msgstr ""
+
+msgid "ago"
+msgstr ""
+
+msgid "days"
+msgstr ""
+
+msgid "hours"
+msgstr ""
+
+msgid "minutes"
+msgstr ""
+
+msgid "seconds"
+msgstr ""
+
+msgid "today"
+msgstr ""
+
+msgid "yesterday"
+msgstr ""
+
+msgid "this week"
+msgstr ""
+
+msgid "this month"
+msgstr ""
+
+msgid "this year"
+msgstr ""
+
+#. Error messages
+msgid "Field is required"
+msgstr ""
+
+msgid "Invalid email address"
+msgstr ""
+
+msgid "Invalid phone number"
+msgstr ""
+
+msgid "Please try again"
+msgstr ""
+
+msgid "An error occurred"
+msgstr ""
+
+msgid "No results found"
+msgstr ""
+
+msgid "Access denied"
+msgstr ""
+
+msgid "Invalid request"
+msgstr ""
+
+#. Success messages
+msgid "Settings saved successfully"
+msgstr ""
+
+msgid "Lead submitted successfully"
+msgstr ""
+
+msgid "Package updated successfully"
+msgstr ""
+
+msgid "Data exported successfully"
+msgstr ""
+
+msgid "Cache cleared successfully"
+msgstr ""
+
+#. Confirmation messages
+msgid "Are you sure?"
+msgstr ""
+
+msgid "This action cannot be undone"
+msgstr ""
+
+msgid "Confirm deletion"
+msgstr ""
+
+msgid "Confirm changes"
+msgstr ""
+
+#. WhatsApp integration
+msgid "Contact us on WhatsApp"
+msgstr ""
+
+msgid "Send WhatsApp message"
+msgstr ""
+
+msgid "WhatsApp Button"
+msgstr ""
+
+#. SEO and meta
+msgid "Travel Package"
+msgstr ""
+
+msgid "Book now"
+msgstr ""
+
+msgid "Best price"
+msgstr ""
+
+msgid "Limited offer"
+msgstr ""
+
+msgid "Exclusive deal"
+msgstr ""
+
+#. Dashboard and statistics
+msgid "Dashboard"
+msgstr ""
+
+msgid "Statistics"
+msgstr ""
+
+msgid "Reports"
+msgstr ""
+
+msgid "Analytics"
+msgstr ""
+
+msgid "Performance"
+msgstr ""
+
+msgid "Overview"
+msgstr ""
+
+msgid "Summary"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Count"
+msgstr ""
+
+msgid "Average"
+msgstr ""
+
+msgid "Rate"
+msgstr ""
+
+msgid "Percentage"
+msgstr ""
+
+#. Time periods
+msgid "Last 7 days"
+msgstr ""
+
+msgid "Last 30 days"
+msgstr ""
+
+msgid "Last 90 days"
+msgstr ""
+
+msgid "This year"
+msgstr ""
+
+msgid "All time"
+msgstr ""

@@ -1,0 +1,707 @@
+/**
+ * TravelCurator Elementor Widgets CSS
+ */
+
+/* Common Styles */
+.travelcurator-packages-grid,
+.travelcurator-package-details,
+.travelcurator-search-filter,
+.travelcurator-lead-form {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+}
+
+/* Packages Grid Widget */
+.travelcurator-packages-grid .packages-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.travelcurator-packages-grid .columns-1 {
+    grid-template-columns: 1fr;
+}
+
+.travelcurator-packages-grid .columns-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.travelcurator-packages-grid .columns-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.travelcurator-packages-grid .columns-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.travelcurator-packages-grid .package-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.travelcurator-packages-grid .package-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.travelcurator-packages-grid .card-image {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.travelcurator-packages-grid .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.travelcurator-packages-grid .package-card:hover .card-img {
+    transform: scale(1.05);
+}
+
+.travelcurator-packages-grid .package-labels {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.travelcurator-packages-grid .category-label {
+    background: rgba(26, 58, 95, 0.9);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.travelcurator-packages-grid .wishlist-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #666;
+}
+
+.travelcurator-packages-grid .wishlist-btn:hover,
+.travelcurator-packages-grid .wishlist-btn.active {
+    background: #fff;
+    color: #e74c3c;
+    transform: scale(1.1);
+}
+
+.travelcurator-packages-grid .card-content {
+    padding: 1.5rem;
+}
+
+.travelcurator-packages-grid .package-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.travelcurator-packages-grid .package-title a {
+    color: #1A3A5F;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.travelcurator-packages-grid .package-title a:hover {
+    color: #F2B705;
+}
+
+.travelcurator-packages-grid .package-location {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.travelcurator-packages-grid .package-location i {
+    color: #F2B705;
+}
+
+.travelcurator-packages-grid .package-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.travelcurator-packages-grid .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.travelcurator-packages-grid .meta-item i {
+    color: #F2B705;
+}
+
+.travelcurator-packages-grid .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: auto;
+}
+
+.travelcurator-packages-grid .package-price {
+    text-align: left;
+}
+
+.travelcurator-packages-grid .price-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #F2B705;
+}
+
+/* Filters */
+.travelcurator-packages-grid .packages-filters {
+    margin-bottom: 2rem;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.travelcurator-packages-grid .filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.travelcurator-packages-grid .filter-tab {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #666;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.travelcurator-packages-grid .filter-tab.active,
+.travelcurator-packages-grid .filter-tab:hover {
+    background: #F2B705;
+    border-color: #F2B705;
+    color: white;
+}
+
+/* Package Details Widget */
+.travelcurator-package-details {
+    max-width: 100%;
+}
+
+.travelcurator-package-details .detail-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.travelcurator-package-details .detail-section h3 {
+    color: #1A3A5F;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #F2B705;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.travelcurator-package-details .package-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1A3A5F;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.travelcurator-package-details .package-price {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #1A3A5F, #2C5F84);
+    color: white;
+    border-radius: 15px;
+    margin: 1.5rem 0;
+}
+
+.travelcurator-package-details .price-value {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #F2B705;
+}
+
+.travelcurator-package-details .price-label,
+.travelcurator-package-details .price-per {
+    display: block;
+    opacity: 0.9;
+}
+
+.travelcurator-package-details .package-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.travelcurator-package-details .meta-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #F2B705;
+}
+
+.travelcurator-package-details .meta-item i {
+    color: #F2B705;
+    font-size: 1.2rem;
+    margin-top: 0.2rem;
+}
+
+.travelcurator-package-details .meta-item strong {
+    display: block;
+    color: #1A3A5F;
+    margin-bottom: 0.25rem;
+}
+
+/* Gallery */
+.travelcurator-package-details .package-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.travelcurator-package-details .gallery-item {
+    position: relative;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.travelcurator-package-details .gallery-item:hover {
+    transform: scale(1.05);
+}
+
+.travelcurator-package-details .gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.travelcurator-package-details .gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 58, 95, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.travelcurator-package-details .gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.travelcurator-package-details .gallery-overlay i {
+    color: white;
+    font-size: 2rem;
+}
+
+/* Itinerary */
+.travelcurator-package-details .itinerary-timeline {
+    position: relative;
+}
+
+.travelcurator-package-details .itinerary-day {
+    display: flex;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.travelcurator-package-details .day-number {
+    background: #1A3A5F;
+    color: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 1.5rem;
+    font-weight: bold;
+}
+
+.travelcurator-package-details .day-number span {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.travelcurator-package-details .day-number strong {
+    font-size: 1.2rem;
+}
+
+.travelcurator-package-details .day-content {
+    flex: 1;
+    padding-top: 0.5rem;
+}
+
+.travelcurator-package-details .activities-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+.travelcurator-package-details .activities-list li {
+    padding: 0.25rem 0;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.travelcurator-package-details .activities-list li i {
+    color: #F2B705;
+}
+
+/* Accommodation */
+.travelcurator-package-details .accommodation-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid #F2B705;
+}
+
+.travelcurator-package-details .hotel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.travelcurator-package-details .hotel-stars .fa-star.active {
+    color: #F2B705;
+}
+
+.travelcurator-package-details .hotel-stars .fa-star.inactive {
+    color: #ddd;
+}
+
+/* Include List */
+.travelcurator-package-details .include-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0.5rem;
+}
+
+.travelcurator-package-details .include-list li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+}
+
+.travelcurator-package-details .include-list li i {
+    color: #28a745;
+}
+
+/* Button */
+.travelcurator-package-details .button-section {
+    text-align: center;
+    padding: 2rem;
+}
+
+.travelcurator-package-details .btn-primary {
+    background: #F2B705;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.travelcurator-package-details .btn-primary:hover {
+    background: #e6a500;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(242, 183, 5, 0.3);
+}
+
+/* Lightbox */
+.travelcurator-lightbox {
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.travelcurator-lightbox .lightbox-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.travelcurator-lightbox .lightbox-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.travelcurator-lightbox .lightbox-close:hover {
+    color: #F2B705;
+}
+
+/* Layout Variations */
+.layout-horizontal .detail-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.layout-horizontal .detail-section > * {
+    flex: 1;
+}
+
+.layout-cards .detail-section {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-left: 4px solid #F2B705;
+}
+
+/* Search Filter Widget */
+.travelcurator-search-filter .search-filter-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.travelcurator-search-filter .filter-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.travelcurator-search-filter .filter-grid.horizontal {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    align-items: end;
+}
+
+.travelcurator-search-filter .filter-grid.vertical {
+    grid-template-columns: 1fr;
+}
+
+.travelcurator-search-filter .filter-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.travelcurator-search-filter .filter-field label {
+    font-weight: 600;
+    color: #1A3A5F;
+    margin-bottom: 0.5rem;
+}
+
+.travelcurator-search-filter .form-control {
+    padding: 0.75rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.travelcurator-search-filter .form-control:focus {
+    outline: none;
+    border-color: #F2B705;
+    box-shadow: 0 0 0 3px rgba(242, 183, 5, 0.1);
+}
+
+/* Lead Form Widget */
+.travelcurator-lead-form .lead-form-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.travelcurator-lead-form .form-title {
+    text-align: center;
+    color: #1A3A5F;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.travelcurator-lead-form .form-subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.travelcurator-lead-form .form-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.travelcurator-lead-form .form-grid.standard,
+.travelcurator-lead-form .form-grid.floating,
+.travelcurator-lead-form .form-grid.card {
+    grid-template-columns: 1fr;
+}
+
+.travelcurator-lead-form .form-grid.inline {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.travelcurator-lead-form .full-width {
+    grid-column: 1 / -1;
+}
+
+.travelcurator-lead-form .btn-submit {
+    background: #F2B705;
+    color: white;
+    border: none;
+    padding: 1rem 3rem;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.travelcurator-lead-form .btn-submit:hover:not(:disabled) {
+    background: #e6a500;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(242, 183, 5, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .travelcurator-packages-grid .columns-4 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .travelcurator-packages-grid .columns-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .travelcurator-packages-grid .columns-3,
+    .travelcurator-packages-grid .columns-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    .travelcurator-packages-grid .columns-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .travelcurator-package-details .package-title {
+        font-size: 2rem;
+    }
+    
+    .travelcurator-package-details .price-value {
+        font-size: 2rem;
+    }
+    
+    .travelcurator-package-details .package-meta-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .travelcurator-package-details .itinerary-day {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .travelcurator-package-details .day-number {
+        margin-right: 0;
+    }
+    
+    .travelcurator-search-filter .filter-grid.horizontal {
+        grid-template-columns: 1fr;
+    }
+    
+    .travelcurator-lead-form .form-grid.inline {
+        grid-template-columns: 1fr;
+    }
+    
+    .travelcurator-lead-form .half-width {
+        grid-column: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .travelcurator-packages-grid .card-content {
+        padding: 1rem;
+    }
+    
+    .travelcurator-packages-grid .package-title {
+        font-size: 1.1rem;
+    }
+    
+    .travelcurator-package-details .detail-section {
+        padding: 1rem;
+    }
+    
+    .travelcurator-search-filter .search-filter-container,
+    .travelcurator-lead-form .lead-form-container {
+        padding: 1rem;
+    }
+    
+    .travelcurator-lead-form .form-title {
+        font-size: 1.5rem;
+    }
+}
+    
