@@ -45,8 +45,8 @@ class TravelCurator_Elementor {
         }
 
         // Load widget base files
-        $widgets_path = plugin_dir_path(dirname(__FILE__)) . 'includes/elementor/';
-        
+        $widgets_path = TRAVELCURATOR_PLUGIN_PATH . 'includes/elementor/';
+
         // Load main widgets class
         if (file_exists($widgets_path . 'class-travelcurator-elementor-widgets.php')) {
             require_once $widgets_path . 'class-travelcurator-elementor-widgets.php';
@@ -91,7 +91,7 @@ class TravelCurator_Elementor {
     public function enqueue_styles() {
         wp_enqueue_style(
             'travelcurator-elementor-widgets',
-            plugin_dir_url(dirname(__FILE__)) . 'includes/elementor/assets/widgets.css',
+            TRAVELCURATOR_PLUGIN_URL . 'includes/elementor/assets/widgets.css',
             array(),
             TRAVELCURATOR_VERSION
         );
@@ -102,7 +102,7 @@ class TravelCurator_Elementor {
     public function enqueue_scripts() {
         wp_enqueue_script(
             'travelcurator-elementor-widgets',
-            plugin_dir_url(dirname(__FILE__)) . 'includes/elementor/assets/widgets.js',
+            TRAVELCURATOR_PLUGIN_URL . 'includes/elementor/assets/widgets.js',
             array('jquery'),
             TRAVELCURATOR_VERSION,
             true
