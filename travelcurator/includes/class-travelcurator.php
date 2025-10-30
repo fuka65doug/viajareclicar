@@ -208,7 +208,7 @@ class TravelCurator {
     private function define_elementor_hooks() {
         if (did_action('elementor/loaded')) {
             $elementor = new TravelCurator_Elementor();
-            $this->loader->add_action('elementor/widgets/widgets_registered', $elementor, 'register_widgets');
+            $this->loader->add_action('elementor/widgets/register', $elementor, 'register_widgets');
             $this->loader->add_action('elementor/elements/categories_registered', $elementor, 'register_category');
             $this->loader->add_action('elementor/frontend/after_enqueue_styles', $elementor, 'enqueue_styles');
             $this->loader->add_action('elementor/preview/enqueue_styles', $elementor, 'enqueue_styles');

@@ -39,60 +39,60 @@ class TravelCurator_Post_Types {
      */
     private function register_travel_package_post_type() {
         $labels = array(
-            'name' => _x('Travel Packages', 'Post Type General Name', 'travelcurator'),
-            'singular_name' => _x('Travel Package', 'Post Type Singular Name', 'travelcurator'),
-            'menu_name' => __('Travel Packages', 'travelcurator'),
-            'name_admin_bar' => __('Travel Package', 'travelcurator'),
-            'archives' => __('Package Archives', 'travelcurator'),
-            'attributes' => __('Package Attributes', 'travelcurator'),
-            'parent_item_colon' => __('Parent Package:', 'travelcurator'),
-            'all_items' => __('All Packages', 'travelcurator'),
-            'add_new_item' => __('Add New Package', 'travelcurator'),
-            'add_new' => __('Add New', 'travelcurator'),
-            'new_item' => __('New Package', 'travelcurator'),
-            'edit_item' => __('Edit Package', 'travelcurator'),
-            'update_item' => __('Update Package', 'travelcurator'),
-            'view_item' => __('View Package', 'travelcurator'),
-            'view_items' => __('View Packages', 'travelcurator'),
-            'search_items' => __('Search Packages', 'travelcurator'),
-            'not_found' => __('Not found', 'travelcurator'),
-            'not_found_in_trash' => __('Not found in Trash', 'travelcurator'),
-            'featured_image' => __('Featured Image', 'travelcurator'),
-            'set_featured_image' => __('Set featured image', 'travelcurator'),
-            'remove_featured_image' => __('Remove featured image', 'travelcurator'),
-            'use_featured_image' => __('Use as featured image', 'travelcurator'),
-            'insert_into_item' => __('Insert into package', 'travelcurator'),
-            'uploaded_to_this_item' => __('Uploaded to this package', 'travelcurator'),
-            'items_list' => __('Packages list', 'travelcurator'),
-            'items_list_navigation' => __('Packages list navigation', 'travelcurator'),
-            'filter_items_list' => __('Filter packages list', 'travelcurator'),
+            'name' => _x('Pacotes de Viagem', 'Post Type General Name', 'travelcurator'),
+            'singular_name' => _x('Pacote de Viagem', 'Post Type Singular Name', 'travelcurator'),
+            'menu_name' => __('Pacotes de Viagem', 'travelcurator'),
+            'name_admin_bar' => __('Pacote de Viagem', 'travelcurator'),
+            'archives' => __('Arquivo de Pacotes', 'travelcurator'),
+            'attributes' => __('Atributos do Pacote', 'travelcurator'),
+            'parent_item_colon' => __('Pacote Pai:', 'travelcurator'),
+            'all_items' => __('Todos os Pacotes', 'travelcurator'),
+            'add_new_item' => __('Adicionar Novo Pacote', 'travelcurator'),
+            'add_new' => __('Adicionar Novo', 'travelcurator'),
+            'new_item' => __('Novo Pacote', 'travelcurator'),
+            'edit_item' => __('Editar Pacote', 'travelcurator'),
+            'update_item' => __('Atualizar Pacote', 'travelcurator'),
+            'view_item' => __('Ver Pacote', 'travelcurator'),
+            'view_items' => __('Ver Pacotes', 'travelcurator'),
+            'search_items' => __('Buscar Pacotes', 'travelcurator'),
+            'not_found' => __('Nenhum pacote encontrado', 'travelcurator'),
+            'not_found_in_trash' => __('Nenhum pacote encontrado na lixeira', 'travelcurator'),
+            'featured_image' => __('Imagem Destacada', 'travelcurator'),
+            'set_featured_image' => __('Definir imagem destacada', 'travelcurator'),
+            'remove_featured_image' => __('Remover imagem destacada', 'travelcurator'),
+            'use_featured_image' => __('Usar como imagem destacada', 'travelcurator'),
+            'insert_into_item' => __('Inserir no pacote', 'travelcurator'),
+            'uploaded_to_this_item' => __('Enviado para este pacote', 'travelcurator'),
+            'items_list' => __('Lista de pacotes', 'travelcurator'),
+            'items_list_navigation' => __('Navegação da lista de pacotes', 'travelcurator'),
+            'filter_items_list' => __('Filtrar lista de pacotes', 'travelcurator'),
         );
 
         $args = array(
-            'label' => __('Travel Package', 'travelcurator'),
-            'description' => __('Travel packages for your agency', 'travelcurator'),
+            'label' => __('Pacote de Viagem', 'travelcurator'),
+            'description' => __('Pacotes de viagem para sua agência', 'travelcurator'),
             'labels' => $labels,
             'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'revisions', 'page-attributes'),
             'taxonomies' => array('travel_category', 'travel_destination', 'travel_purpose', 'travel_amenity'),
             'hierarchical' => false,
             'public' => true,
             'show_ui' => true,
-            'show_in_menu' => true,
+            'show_in_menu' => 'travelcurator',
             'menu_position' => 5,
             'menu_icon' => 'dashicons-palmtree',
             'show_in_admin_bar' => true,
             'show_in_nav_menus' => true,
             'can_export' => true,
-            'has_archive' => 'travel-packages',
+            'has_archive' => 'pacotes-de-viagem',
             'exclude_from_search' => false,
             'publicly_queryable' => true,
             'capability_type' => 'post',
-            'map_meta_cap' => true,	
+            'map_meta_cap' => true,
             'show_in_rest' => true,
             'rest_base' => 'travel-packages',
             'rest_controller_class' => 'WP_REST_Posts_Controller',
             'rewrite' => array(
-                'slug' => 'travel-package',
+                'slug' => 'pacote-de-viagem',
                 'with_front' => false,
                 'pages' => true,
                 'feeds' => true,
@@ -148,14 +148,14 @@ class TravelCurator_Post_Types {
         }
 
         // Add custom columns
-        $new_columns['featured_image'] = __('Image', 'travelcurator');
-        $new_columns['price'] = __('Price', 'travelcurator');
-        $new_columns['duration'] = __('Duration', 'travelcurator');
-        $new_columns['difficulty'] = __('Difficulty', 'travelcurator');
+        $new_columns['featured_image'] = __('Imagem', 'travelcurator');
+        $new_columns['price'] = __('Preço', 'travelcurator');
+        $new_columns['duration'] = __('Duração', 'travelcurator');
+        $new_columns['difficulty'] = __('Dificuldade', 'travelcurator');
         $new_columns['status'] = __('Status', 'travelcurator');
         $new_columns['leads_count'] = __('Leads', 'travelcurator');
-        $new_columns['travel_category'] = __('Category', 'travelcurator');
-        $new_columns['travel_destination'] = __('Destination', 'travelcurator');
+        $new_columns['travel_category'] = __('Categoria', 'travelcurator');
+        $new_columns['travel_destination'] = __('Destino', 'travelcurator');
 
         // Add remaining columns
         if (isset($columns['date'])) {
@@ -210,10 +210,10 @@ class TravelCurator_Post_Types {
                 $status = $status ? $status : 'draft';
                 
                 $status_labels = array(
-                    'active' => array('label' => __('Active', 'travelcurator'), 'color' => '#46b450'),
-                    'inactive' => array('label' => __('Inactive', 'travelcurator'), 'color' => '#dc3232'),
-                    'draft' => array('label' => __('Draft', 'travelcurator'), 'color' => '#ffb900'),
-                    'sold_out' => array('label' => __('Sold Out', 'travelcurator'), 'color' => '#826eb4')
+                    'active' => array('label' => __('Ativo', 'travelcurator'), 'color' => '#46b450'),
+                    'inactive' => array('label' => __('Inativo', 'travelcurator'), 'color' => '#dc3232'),
+                    'draft' => array('label' => __('Rascunho', 'travelcurator'), 'color' => '#ffb900'),
+                    'sold_out' => array('label' => __('Esgotado', 'travelcurator'), 'color' => '#826eb4')
                 );
                 
                 if (isset($status_labels[$status])) {
@@ -332,11 +332,11 @@ class TravelCurator_Post_Types {
         // Status filter
         $current_status = isset($_GET['package_status']) ? $_GET['package_status'] : '';
         $statuses = array(
-            '' => __('All Statuses', 'travelcurator'),
-            'active' => __('Active', 'travelcurator'),
-            'inactive' => __('Inactive', 'travelcurator'),
-            'draft' => __('Draft', 'travelcurator'),
-            'sold_out' => __('Sold Out', 'travelcurator')
+            '' => __('Todos os Status', 'travelcurator'),
+            'active' => __('Ativo', 'travelcurator'),
+            'inactive' => __('Inativo', 'travelcurator'),
+            'draft' => __('Rascunho', 'travelcurator'),
+            'sold_out' => __('Esgotado', 'travelcurator')
         );
 
         echo '<select name="package_status">';
@@ -348,10 +348,10 @@ class TravelCurator_Post_Types {
         // Difficulty filter
         $current_difficulty = isset($_GET['package_difficulty']) ? $_GET['package_difficulty'] : '';
         $difficulties = array(
-            '' => __('All Difficulties', 'travelcurator'),
-            'easy' => __('Easy', 'travelcurator'),
-            'moderate' => __('Moderate', 'travelcurator'),
-            'hard' => __('Hard', 'travelcurator')
+            '' => __('Todas as Dificuldades', 'travelcurator'),
+            'easy' => __('Fácil', 'travelcurator'),
+            'moderate' => __('Moderado', 'travelcurator'),
+            'hard' => __('Difícil', 'travelcurator')
         );
 
         echo '<select name="package_difficulty">';
@@ -363,7 +363,7 @@ class TravelCurator_Post_Types {
         // Price range filter
         $current_price_range = isset($_GET['package_price_range']) ? $_GET['package_price_range'] : '';
         $price_ranges = array(
-            '' => __('All Prices', 'travelcurator'),
+            '' => __('Todos os Preços', 'travelcurator'),
             '0-1000' => __('R$ 0 - R$ 1.000', 'travelcurator'),
             '1001-2500' => __('R$ 1.001 - R$ 2.500', 'travelcurator'),
             '2501-5000' => __('R$ 2.501 - R$ 5.000', 'travelcurator'),
