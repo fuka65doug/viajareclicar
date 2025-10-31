@@ -470,9 +470,13 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
 
                             <div class="card-footer">
                                 <div class="package-price">
-                                    <span class="price-label">A partir de</span>
-                                    <span class="price-value">R$ <?php echo number_format((float)$price, 2, ',', '.'); ?></span>
-                                    <span class="price-per">por pessoa</span>
+                                    <?php if (!empty($price) && $price > 0): ?>
+                                        <span class="price-label">A partir de</span>
+                                        <span class="price-value">R$ <?php echo number_format((float)$price, 2, ',', '.'); ?></span>
+                                        <span class="price-per">por pessoa</span>
+                                    <?php else: ?>
+                                        <span class="price-value" style="font-size: 18px; font-weight: 600;">Sob Consulta</span>
+                                    <?php endif; ?>
                                 </div>
                                 <button class="btn btn-primary" onclick="openLeadModal(<?php echo $package_id; ?>)">
                                     <i class="fas fa-paper-plane"></i> Solicitar

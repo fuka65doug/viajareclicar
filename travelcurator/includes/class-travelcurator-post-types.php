@@ -928,9 +928,3 @@ class TravelCurator_Post_Types {
         return '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
     }
 }
-
-// Initialize the class
-new TravelCurator_Post_Types();
-
-// Handle duplication action
-add_action('admin_init', array('TravelCurator_Post_Types', 'handle_package_duplication'));

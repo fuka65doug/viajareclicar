@@ -1051,10 +1051,14 @@ class TravelCurator_Public {
                 <?php endif; ?>
                 
                 <div class="tc-package-footer">
-                    <?php if ($price && $price_display): ?>
+                    <?php if ($price && $price > 0 && $price_display): ?>
                     <div class="tc-package-price">
                         <span class="currency"><?php echo esc_html($currency_symbol); ?></span><?php echo esc_html(number_format($price, 2, ',', '.')); ?>
                         <small class="period"><?php _e('por pessoa', 'travelcurator'); ?></small>
+                    </div>
+                    <?php else: ?>
+                    <div class="tc-package-price">
+                        <span style="font-size: 16px; font-weight: 600;"><?php _e('Sob Consulta', 'travelcurator'); ?></span>
                     </div>
                     <?php endif; ?>
                     
