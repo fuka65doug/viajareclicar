@@ -471,7 +471,7 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                             <div class="card-footer">
                                 <div class="package-price">
                                     <span class="price-label">A partir de</span>
-                                    <span class="price-value">R$ <?php echo number_format($price, 2, ',', '.'); ?></span>
+                                    <span class="price-value">R$ <?php echo number_format((float)$price, 2, ',', '.'); ?></span>
                                     <span class="price-per">por pessoa</span>
                                 </div>
                                 <button class="btn btn-primary" onclick="openLeadModal(<?php echo $package_id; ?>)">
@@ -576,11 +576,14 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
         $categories = get_terms(array(
             'taxonomy' => 'travel_category',
             'hide_empty' => false,
+            'fields' => 'all',
         ));
 
         $options = array();
-        foreach ($categories as $category) {
-            $options[$category->term_id] = $category->name;
+        if (!is_wp_error($categories) && !empty($categories)) {
+            foreach ($categories as $category) {
+                $options[$category->term_id] = $category->name;
+            }
         }
 
         return $options;
@@ -590,11 +593,14 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
         $destinations = get_terms(array(
             'taxonomy' => 'travel_destination',
             'hide_empty' => false,
+            'fields' => 'all',
         ));
 
         $options = array();
-        foreach ($destinations as $destination) {
-            $options[$destination->term_id] = $destination->name;
+        if (!is_wp_error($destinations) && !empty($destinations)) {
+            foreach ($destinations as $destination) {
+                $options[$destination->term_id] = $destination->name;
+            }
         }
 
         return $options;
@@ -604,11 +610,14 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
         $purposes = get_terms(array(
             'taxonomy' => 'travel_purpose',
             'hide_empty' => false,
+            'fields' => 'all',
         ));
 
         $options = array();
-        foreach ($purposes as $purpose) {
-            $options[$purpose->term_id] = $purpose->name;
+        if (!is_wp_error($purposes) && !empty($purposes)) {
+            foreach ($purposes as $purpose) {
+                $options[$purpose->term_id] = $purpose->name;
+            }
         }
 
         return $options;
