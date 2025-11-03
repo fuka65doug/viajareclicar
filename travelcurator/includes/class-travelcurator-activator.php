@@ -127,7 +127,7 @@ class TravelCurator_Activator {
             'rewrite' => array('slug' => 'categoria-viagem')
         ));
         
-        register_taxonomy('emotional_purpose', 'travel_package', array(
+        register_taxonomy('travel_purpose', 'travel_package', array(
             'hierarchical' => false,
             'public' => true,
             'rewrite' => array('slug' => 'proposito')
@@ -171,8 +171,8 @@ class TravelCurator_Activator {
         );
         
         foreach ($purposes as $purpose => $description) {
-            if (!term_exists($purpose, 'emotional_purpose')) {
-                wp_insert_term($purpose, 'emotional_purpose', array(
+            if (!term_exists($purpose, 'travel_purpose')) {
+                wp_insert_term($purpose, 'travel_purpose', array(
                     'description' => $description
                 ));
             }

@@ -209,6 +209,57 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
 
         $this->end_controls_section();
 
+        // Layout Section
+        $this->start_controls_section(
+            'layout_section',
+            [
+                'label' => 'Layout',
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+            'container_width',
+            [
+                'label' => 'Largura dos Cards',
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'boxed',
+                'options' => [
+                    'boxed' => 'Encaixotado (Container)',
+                    'full' => 'Largura Total (Full Width)',
+                ],
+                'description' => 'O Hero sempre respeita o full width. Esta opção controla apenas a grade de cards.',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'container_max_width',
+            [
+                'label' => 'Largura Máxima (Container)',
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'vw'],
+                'range' => [
+                    'px' => [
+                        'min' => 600,
+                        'max' => 2000,
+                        'step' => 10,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 1200,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .packages-grid-container.boxed' => 'max-width: {{SIZE}}{{UNIT}}; margin-left: auto; margin-right: auto;',
+                ],
+                'condition' => [
+                    'container_width' => 'boxed',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
         // Style Section - Hero
         $this->start_controls_section(
             'hero_style_section',
@@ -690,7 +741,8 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
             </div>
             <?php endif; ?>
 
-            <div class="packages-grid columns-<?php echo esc_attr($settings['columns']); ?>">
+            <div class="packages-grid-container <?php echo esc_attr($settings['container_width']); ?>">
+                <div class="packages-grid columns-<?php echo esc_attr($settings['columns']); ?>">
                 <?php if ($query->have_posts()) : ?>
                     <?php while ($query->have_posts()) : $query->the_post();
                         $package_id = get_the_ID();
@@ -760,7 +812,9 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                             <!-- Meta Info -->
                             <div class="package-meta-info">
                                 <div class="package-duration">
-                                    ⏱️ <?php echo esc_html($duration ? $duration : '7 dias / 6 noites'); ?>
+                                    <?php if ($duration) : ?>
+                                        ⏱️ <?php echo esc_html($duration); ?>
+                                    <?php endif; ?>
                                     <?php if ($difficulty) : ?>
                                         <span class="package-difficulty" style="margin-left: 10px;">
                                             🏔️ <?php echo esc_html(ucfirst($difficulty)); ?>
@@ -810,6 +864,7 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                 ?>
             </div>
             <?php endif; ?>
+            </div><!-- .packages-grid-container -->
 
             <!-- MODAL POPUPS FOR EACH PACKAGE -->
             <?php
@@ -868,7 +923,9 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                         <div class="tc-modal-footer">
                             <div class="tc-modal-meta">
                                 <div class="tc-modal-duration">
-                                    ⏱️ <?php echo esc_html($duration ? $duration : '7 dias / 6 noites'); ?>
+                                    <?php if ($duration) : ?>
+                                        ⏱️ <?php echo esc_html($duration); ?>
+                                    <?php endif; ?>
                                     <?php if ($difficulty) : ?>
                                         <span style="margin-left: 10px;">
                                             🏔️ <?php echo esc_html(ucfirst($difficulty)); ?>

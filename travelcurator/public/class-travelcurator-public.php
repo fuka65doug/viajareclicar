@@ -812,7 +812,7 @@ class TravelCurator_Public {
         }
 
         // Taxonomy filters
-        $taxonomies = array('travel_category', 'emotional_purpose', 'travel_destination');
+        $taxonomies = array('travel_category', 'travel_purpose', 'travel_destination');
         foreach ($taxonomies as $taxonomy) {
             if (isset($filters[$taxonomy]) && !empty($filters[$taxonomy])) {
                 $terms = is_array($filters[$taxonomy]) ? $filters[$taxonomy] : array($filters[$taxonomy]);
@@ -959,7 +959,7 @@ class TravelCurator_Public {
         $highlights = get_post_meta($package_id, 'package_highlights', true) ?: array();
         
         // Get taxonomies
-        $purposes = get_the_terms($package_id, 'emotional_purpose');
+        $purposes = get_the_terms($package_id, 'travel_purpose');
         $destinations = get_the_terms($package_id, 'travel_destination');
         $categories = get_the_terms($package_id, 'travel_category');
         
