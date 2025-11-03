@@ -6,19 +6,19 @@
 /* === THEME INHERITANCE === */
 /* Use theme colors and fonts where available, with fallbacks */
 .travelcurator-packages-grid {
-    font-family: var(--wp--preset--font-family--body, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif);
-    color: var(--wp--preset--color--text, #333);
+    font-family: var(--wp--preset--font-family--body, var(--wp--preset--font-family--base, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif));
+    color: var(--wp--preset--color--foreground, var(--wp--preset--color--text, #333));
 }
 
 .travelcurator-packages-grid h1,
 .travelcurator-packages-grid h2,
 .travelcurator-packages-grid h3 {
-    font-family: var(--wp--preset--font-family--heading, 'Playfair Display', Georgia, serif);
+    font-family: var(--wp--preset--font-family--heading, var(--wp--preset--font-family--display, 'Playfair Display', Georgia, serif));
 }
 
 /* === HEADER SECTION WITH EMOTIONAL PURPOSE FILTERS === */
 .tc-experiences-header {
-    background: linear-gradient(135deg, #C85F4D 0%, #D4B254 100%);
+    background: linear-gradient(135deg, var(--wp--preset--color--secondary, var(--wp--preset--color--primary, #C85F4D)) 0%, var(--wp--preset--color--accent, #D4B254) 100%);
     padding: 60px 30px;
     margin-bottom: 50px;
     position: relative;
@@ -49,7 +49,7 @@
 .tc-purpose-pill {
     background: rgba(255, 255, 255, 0.95);
     border: 2px solid transparent;
-    color: #1A3A5F;
+    color: var(--wp--preset--color--primary, var(--wp--preset--color--contrast, #1A3A5F));
     padding: 12px 28px;
     border-radius: 30px;
     cursor: pointer;
@@ -65,9 +65,9 @@
 }
 
 .tc-purpose-pill.active {
-    background: #D4B254;
+    background: var(--wp--preset--color--accent, var(--wp--preset--color--tertiary, #D4B254));
     color: #fff;
-    border-color: #D4B254;
+    border-color: var(--wp--preset--color--accent, var(--wp--preset--color--tertiary, #D4B254));
     box-shadow: 0 5px 20px rgba(212, 178, 84, 0.4);
 }
 
@@ -159,7 +159,7 @@
     position: absolute;
     top: 20px;
     left: 20px;
-    background: #D4B254;
+    background: var(--wp--preset--color--accent, var(--wp--preset--color--tertiary, #D4B254));
     color: #fff;
     padding: 10px 22px;
     border-radius: 30px;
@@ -194,7 +194,7 @@
 /* Category Label (Orange Badge) */
 .category-badge {
     display: inline-block;
-    background: #C85F4D;
+    background: var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #C85F4D));
     color: #fff;
     padding: 6px 16px;
     border-radius: 20px;
@@ -208,11 +208,11 @@
 
 /* Package Title - Serif Font */
 .package-title {
-    font-family: var(--wp--preset--font-family--heading, 'Playfair Display', Georgia, serif);
+    font-family: var(--wp--preset--font-family--heading, var(--wp--preset--font-family--display, 'Playfair Display', Georgia, serif));
     font-size: 1.8em;
     font-weight: 700;
     line-height: 1.3;
-    color: var(--wp--preset--color--heading, #1A3A5F);
+    color: var(--wp--preset--color--heading, var(--wp--preset--color--contrast, #1A3A5F));
     margin: 0 0 15px 0;
 }
 
@@ -223,12 +223,12 @@
 }
 
 .package-title a:hover {
-    color: #C85F4D;
+    color: var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #C85F4D));
 }
 
 /* Description */
 .package-description {
-    color: var(--wp--preset--color--text, #5f6368);
+    color: var(--wp--preset--color--foreground, var(--wp--preset--color--text, #5f6368));
     font-size: 15px;
     line-height: 1.7;
     margin-bottom: 20px;
@@ -242,21 +242,21 @@
     align-items: center;
     margin-bottom: 20px;
     padding: 15px 0;
-    border-top: 1px solid #e8e8e8;
-    border-bottom: 1px solid #e8e8e8;
+    border-top: 1px solid var(--wp--preset--color--custom-border, #e8e8e8);
+    border-bottom: 1px solid var(--wp--preset--color--custom-border, #e8e8e8);
 }
 
 .package-duration {
-    color: #5f6368;
+    color: var(--wp--preset--color--foreground, var(--wp--preset--color--text, #5f6368));
     font-size: 14px;
     font-weight: 600;
 }
 
 .package-price {
-    font-family: var(--wp--preset--font-family--heading, 'Playfair Display', Georgia, serif);
+    font-family: var(--wp--preset--font-family--heading, var(--wp--preset--font-family--display, 'Playfair Display', Georgia, serif));
     font-size: 1.4em;
     font-weight: 700;
-    color: #1A3A5F;
+    color: var(--wp--preset--color--primary, var(--wp--preset--color--contrast, #1A3A5F));
 }
 
 /* Buttons */
@@ -268,8 +268,8 @@
 .btn-details {
     flex: 1;
     background: transparent;
-    border: 2px solid #1A3A5F;
-    color: #1A3A5F;
+    border: 2px solid var(--wp--preset--color--primary, var(--wp--preset--color--contrast, #1A3A5F));
+    color: var(--wp--preset--color--primary, var(--wp--preset--color--contrast, #1A3A5F));
     padding: 14px 24px;
     border-radius: 8px;
     font-weight: 600;
@@ -281,7 +281,7 @@
 }
 
 .btn-details:hover {
-    background: #1A3A5F;
+    background: var(--wp--preset--color--primary, var(--wp--preset--color--contrast, #1A3A5F));
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 0 5px 20px rgba(26, 58, 95, 0.3);
@@ -289,8 +289,8 @@
 
 .btn-interest {
     flex: 1;
-    background: #C85F4D;
-    border: 2px solid #C85F4D;
+    background: var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #C85F4D));
+    border: 2px solid var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #C85F4D));
     color: #fff;
     padding: 14px 24px;
     border-radius: 8px;
@@ -303,8 +303,8 @@
 }
 
 .btn-interest:hover {
-    background: #b54f3e;
-    border-color: #b54f3e;
+    background: var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #b54f3e));
+    border-color: var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #b54f3e));
     transform: translateY(-2px);
     box-shadow: 0 5px 20px rgba(200, 95, 77, 0.4);
     color: #fff;
@@ -380,17 +380,17 @@
 }
 
 .tc-modal-title {
-    font-family: var(--wp--preset--font-family--heading, 'Playfair Display', Georgia, serif);
+    font-family: var(--wp--preset--font-family--heading, var(--wp--preset--font-family--display, 'Playfair Display', Georgia, serif));
     font-size: 2.2em;
     font-weight: 700;
-    color: #1A3A5F;
+    color: var(--wp--preset--color--heading, var(--wp--preset--color--contrast, #1A3A5F));
     margin-bottom: 15px;
     line-height: 1.3;
 }
 
 .tc-modal-category {
     display: inline-block;
-    background: #C85F4D;
+    background: var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #C85F4D));
     color: #fff;
     padding: 8px 20px;
     border-radius: 25px;
@@ -402,7 +402,7 @@
 }
 
 .tc-modal-description {
-    color: #5f6368;
+    color: var(--wp--preset--color--foreground, var(--wp--preset--color--text, #5f6368));
     font-size: 16px;
     line-height: 1.8;
     margin-bottom: 30px;
@@ -417,9 +417,9 @@
 }
 
 .tc-modal-highlights h4 {
-    font-family: var(--wp--preset--font-family--heading, 'Playfair Display', Georgia, serif);
+    font-family: var(--wp--preset--font-family--heading, var(--wp--preset--font-family--display, 'Playfair Display', Georgia, serif));
     font-size: 1.4em;
-    color: #1A3A5F;
+    color: var(--wp--preset--color--heading, var(--wp--preset--color--contrast, #1A3A5F));
     margin-bottom: 20px;
 }
 
@@ -432,7 +432,7 @@
 .tc-highlights-list li {
     padding: 12px 0 12px 35px;
     position: relative;
-    color: #333;
+    color: var(--wp--preset--color--foreground, var(--wp--preset--color--text, #333));
     font-size: 15px;
     line-height: 1.6;
 }
@@ -442,7 +442,7 @@
     position: absolute;
     left: 0;
     top: 12px;
-    color: #D4B254;
+    color: var(--wp--preset--color--accent, var(--wp--preset--color--tertiary, #D4B254));
     font-weight: bold;
     font-size: 18px;
 }
@@ -463,16 +463,16 @@
 }
 
 .tc-modal-duration {
-    color: #5f6368;
+    color: var(--wp--preset--color--foreground, var(--wp--preset--color--text, #5f6368));
     font-size: 14px;
     font-weight: 600;
 }
 
 .tc-modal-price {
-    font-family: var(--wp--preset--font-family--heading, 'Playfair Display', Georgia, serif);
+    font-family: var(--wp--preset--font-family--heading, var(--wp--preset--font-family--display, 'Playfair Display', Georgia, serif));
     font-size: 1.6em;
     font-weight: 700;
-    color: #1A3A5F;
+    color: var(--wp--preset--color--primary, var(--wp--preset--color--contrast, #1A3A5F));
 }
 
 .tc-modal-buttons {
@@ -482,8 +482,8 @@
 
 .btn-modal-close {
     background: transparent;
-    border: 2px solid #1A3A5F;
-    color: #1A3A5F;
+    border: 2px solid var(--wp--preset--color--primary, var(--wp--preset--color--contrast, #1A3A5F));
+    color: var(--wp--preset--color--primary, var(--wp--preset--color--contrast, #1A3A5F));
     padding: 14px 28px;
     border-radius: 8px;
     font-weight: 600;
@@ -493,13 +493,13 @@
 }
 
 .btn-modal-close:hover {
-    background: #1A3A5F;
+    background: var(--wp--preset--color--primary, var(--wp--preset--color--contrast, #1A3A5F));
     color: #fff;
 }
 
 .btn-modal-interest {
-    background: #C85F4D;
-    border: 2px solid #C85F4D;
+    background: var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #C85F4D));
+    border: 2px solid var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #C85F4D));
     color: #fff;
     padding: 14px 28px;
     border-radius: 8px;
@@ -511,8 +511,8 @@
 }
 
 .btn-modal-interest:hover {
-    background: #b54f3e;
-    border-color: #b54f3e;
+    background: var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #b54f3e));
+    border-color: var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #b54f3e));
     color: #fff;
 }
 

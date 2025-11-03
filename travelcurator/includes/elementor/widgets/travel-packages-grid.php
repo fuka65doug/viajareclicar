@@ -163,6 +163,221 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
 
         $this->end_controls_section();
 
+        // Hero/Header Section
+        $this->start_controls_section(
+            'hero_section',
+            [
+                'label' => 'Cabeçalho (Hero)',
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+                'condition' => [
+                    'show_filters' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'hero_title',
+            [
+                'label' => 'Título do Cabeçalho',
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => 'Nossas Experiências Curadas',
+                'placeholder' => 'Digite o título',
+            ]
+        );
+
+        $this->add_control(
+            'hero_subtitle',
+            [
+                'label' => 'Subtítulo do Cabeçalho',
+                'type' => \Elementor\Controls_Manager::TEXTAREA,
+                'default' => 'Cada experiência é cuidadosamente desenhada para despertar emoções específicas e criar memórias duradouras.',
+                'placeholder' => 'Digite o subtítulo',
+            ]
+        );
+
+        $this->add_control(
+            'show_hero_title',
+            [
+                'label' => 'Mostrar Título/Subtítulo',
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => 'Sim',
+                'label_off' => 'Não',
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // Style Section - Hero
+        $this->start_controls_section(
+            'hero_style_section',
+            [
+                'label' => 'Estilo do Cabeçalho',
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+                'condition' => [
+                    'show_filters' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'hero_background',
+                'label' => 'Fundo do Cabeçalho',
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .tc-experiences-header',
+                'fields_options' => [
+                    'background' => [
+                        'default' => 'gradient',
+                    ],
+                    'color' => [
+                        'default' => 'var(--wp--preset--color--primary, #C85F4D)',
+                    ],
+                    'color_b' => [
+                        'default' => 'var(--wp--preset--color--secondary, #D4B254)',
+                    ],
+                    'gradient_angle' => [
+                        'default' => [
+                            'unit' => 'deg',
+                            'size' => 135,
+                        ],
+                    ],
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'hero_title_color',
+            [
+                'label' => 'Cor do Título',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#ffffff',
+                'selectors' => [
+                    '{{WRAPPER}} .tc-header-title' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'hero_title_typography',
+                'label' => 'Tipografia do Título',
+                'selector' => '{{WRAPPER}} .tc-header-title',
+            ]
+        );
+
+        $this->add_control(
+            'hero_subtitle_color',
+            [
+                'label' => 'Cor do Subtítulo',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'rgba(255,255,255,0.95)',
+                'selectors' => [
+                    '{{WRAPPER}} .tc-header-subtitle' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'hero_subtitle_typography',
+                'label' => 'Tipografia do Subtítulo',
+                'selector' => '{{WRAPPER}} .tc-header-subtitle',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'hero_padding',
+            [
+                'label' => 'Espaçamento Interno',
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'default' => [
+                    'top' => 60,
+                    'right' => 30,
+                    'bottom' => 60,
+                    'left' => 30,
+                    'unit' => 'px',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .tc-experiences-header' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        // Filter Pills Style
+        $this->add_control(
+            'filter_pills_heading',
+            [
+                'label' => 'Estilo dos Filtros (Pills)',
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'filter_pill_bg',
+            [
+                'label' => 'Cor de Fundo',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'rgba(255, 255, 255, 0.95)',
+                'selectors' => [
+                    '{{WRAPPER}} .tc-purpose-pill' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'filter_pill_color',
+            [
+                'label' => 'Cor do Texto',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'var(--wp--preset--color--text, #1A3A5F)',
+                'selectors' => [
+                    '{{WRAPPER}} .tc-purpose-pill' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'filter_pill_active_bg',
+            [
+                'label' => 'Cor de Fundo (Ativo)',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'var(--wp--preset--color--accent, #D4B254)',
+                'selectors' => [
+                    '{{WRAPPER}} .tc-purpose-pill.active' => 'background-color: {{VALUE}}; border-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'filter_pill_active_color',
+            [
+                'label' => 'Cor do Texto (Ativo)',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#ffffff',
+                'selectors' => [
+                    '{{WRAPPER}} .tc-purpose-pill.active' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'filter_pill_typography',
+                'label' => 'Tipografia dos Filtros',
+                'selector' => '{{WRAPPER}} .tc-purpose-pill',
+            ]
+        );
+
+        $this->end_controls_section();
+
         // Style Section
         $this->start_controls_section(
             'style_section',
@@ -219,7 +434,7 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
             [
                 'label' => 'Cor do Título',
                 'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#1A3A5F',
+                'default' => 'var(--wp--preset--color--heading, #1A3A5F)',
                 'selectors' => [
                     '{{WRAPPER}} .package-title a' => 'color: {{VALUE}};',
                 ],
@@ -232,17 +447,6 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                 'name' => 'title_typography',
                 'label' => 'Tipografia do Título',
                 'selector' => '{{WRAPPER}} .package-title',
-                'fields_options' => [
-                    'font_size' => [
-                        'default' => [
-                            'size' => 20,
-                            'unit' => 'px',
-                        ],
-                    ],
-                    'font_weight' => [
-                        'default' => '700',
-                    ],
-                ],
             ]
         );
 
@@ -251,68 +455,134 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
             [
                 'label' => 'Cor do Preço',
                 'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#F2B705',
+                'default' => 'var(--wp--preset--color--primary, #1A3A5F)',
                 'selectors' => [
-                    '{{WRAPPER}} .price-value' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .package-price' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        // Badges Section
+        $this->add_control(
+            'badges_heading',
+            [
+                'label' => 'Badges',
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'purpose_badge_bg',
+            [
+                'label' => 'Cor do Badge de Propósito',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'var(--wp--preset--color--accent, #D4B254)',
+                'selectors' => [
+                    '{{WRAPPER}} .purpose-badge' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'category_badge_bg',
+            [
+                'label' => 'Cor do Badge de Categoria',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'var(--wp--preset--color--secondary, #C85F4D)',
+                'selectors' => [
+                    '{{WRAPPER}} .category-badge' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
 
         $this->end_controls_section();
 
-        // Button Style
+        // Button Style - Details Button
         $this->start_controls_section(
-            'button_style_section',
+            'button_details_style_section',
             [
-                'label' => 'Estilo do Botão',
+                'label' => 'Botão "Ver Detalhes"',
                 'tab' => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
 
         $this->add_control(
-            'button_bg_color',
+            'btn_details_bg',
             [
                 'label' => 'Cor de Fundo',
                 'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#F2B705',
+                'default' => 'transparent',
                 'selectors' => [
-                    '{{WRAPPER}} .btn-primary' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .btn-details' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
 
         $this->add_control(
-            'button_text_color',
+            'btn_details_color',
             [
                 'label' => 'Cor do Texto',
                 'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#FFFFFF',
+                'default' => 'var(--wp--preset--color--primary, #1A3A5F)',
                 'selectors' => [
-                    '{{WRAPPER}} .btn-primary' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .btn-details' => 'color: {{VALUE}}; border-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'btn_details_typography',
+                'label' => 'Tipografia',
+                'selector' => '{{WRAPPER}} .btn-details',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // Button Style - Interest Button
+        $this->start_controls_section(
+            'button_interest_style_section',
+            [
+                'label' => 'Botão "Tenho Interesse"',
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'btn_interest_bg',
+            [
+                'label' => 'Cor de Fundo',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'var(--wp--preset--color--secondary, #C85F4D)',
+                'selectors' => [
+                    '{{WRAPPER}} .btn-interest' => 'background-color: {{VALUE}}; border-color: {{VALUE}};',
+                    '{{WRAPPER}} .btn-modal-interest' => 'background-color: {{VALUE}}; border-color: {{VALUE}};',
                 ],
             ]
         );
 
         $this->add_control(
-            'button_border_radius',
+            'btn_interest_color',
             [
-                'label' => 'Border Radius',
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['px', '%'],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 50,
-                        'step' => 1,
-                    ],
-                ],
-                'default' => [
-                    'unit' => 'px',
-                    'size' => 25,
-                ],
+                'label' => 'Cor do Texto',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#ffffff',
                 'selectors' => [
-                    '{{WRAPPER}} .btn-primary' => 'border-radius: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .btn-interest' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .btn-modal-interest' => 'color: {{VALUE}};',
                 ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'btn_interest_typography',
+                'label' => 'Tipografia',
+                'selector' => '{{WRAPPER}} .btn-interest, {{WRAPPER}} .btn-modal-interest',
             ]
         );
 
@@ -411,10 +681,12 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                     endif;
                     ?>
                 </div>
+                <?php if ($settings['show_hero_title'] === 'yes') : ?>
                 <div class="tc-header-content">
-                    <h2 class="tc-header-title">Nossas Experiências Curadas</h2>
-                    <p class="tc-header-subtitle">Cada experiência é cuidadosamente desenhada para despertar emoções específicas e criar memórias duradouras.</p>
+                    <h2 class="tc-header-title"><?php echo esc_html($settings['hero_title']); ?></h2>
+                    <p class="tc-header-subtitle"><?php echo esc_html($settings['hero_subtitle']); ?></p>
                 </div>
+                <?php endif; ?>
             </div>
             <?php endif; ?>
 
@@ -488,7 +760,12 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                             <!-- Meta Info -->
                             <div class="package-meta-info">
                                 <div class="package-duration">
-                                    <?php echo esc_html($duration ? $duration : '7 dias / 6 noites'); ?>
+                                    ⏱️ <?php echo esc_html($duration ? $duration : '7 dias / 6 noites'); ?>
+                                    <?php if ($difficulty) : ?>
+                                        <span class="package-difficulty" style="margin-left: 10px;">
+                                            🏔️ <?php echo esc_html(ucfirst($difficulty)); ?>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="package-price">
                                     <?php if (!empty($price) && $price > 0): ?>
@@ -542,6 +819,7 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                     $package_id = get_the_ID();
                     $price = get_post_meta($package_id, '_travelcurator_price', true);
                     $duration = get_post_meta($package_id, '_travelcurator_duration', true);
+                    $difficulty = get_post_meta($package_id, '_travelcurator_difficulty', true);
                     $highlights = get_post_meta($package_id, '_travelcurator_highlights', true);
 
                     // Get taxonomies
@@ -590,7 +868,12 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                         <div class="tc-modal-footer">
                             <div class="tc-modal-meta">
                                 <div class="tc-modal-duration">
-                                    <?php echo esc_html($duration ? $duration : '7 dias / 6 noites'); ?>
+                                    ⏱️ <?php echo esc_html($duration ? $duration : '7 dias / 6 noites'); ?>
+                                    <?php if ($difficulty) : ?>
+                                        <span style="margin-left: 10px;">
+                                            🏔️ <?php echo esc_html(ucfirst($difficulty)); ?>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="tc-modal-price">
                                     <?php if (!empty($price) && $price > 0): ?>
