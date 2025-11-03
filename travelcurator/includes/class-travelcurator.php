@@ -212,6 +212,8 @@ class TravelCurator {
             $this->loader->add_action('elementor/elements/categories_registered', $elementor, 'register_category');
             $this->loader->add_action('elementor/frontend/after_enqueue_styles', $elementor, 'enqueue_styles');
             $this->loader->add_action('elementor/preview/enqueue_styles', $elementor, 'enqueue_styles');
+            $this->loader->add_action('elementor/frontend/after_enqueue_scripts', $elementor, 'enqueue_scripts');
+            $this->loader->add_action('elementor/preview/enqueue_scripts', $elementor, 'enqueue_scripts');
         }
     }
 

@@ -321,7 +321,10 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
 
     protected function render() {
         $settings = $this->get_settings_for_display();
-        
+
+        // Get WhatsApp number from settings
+        $whatsapp_number = get_option('travelcurator_whatsapp_number', '');
+
         // Query arguments
         $args = array(
             'post_type' => 'travel_package',
@@ -338,7 +341,7 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
 
         // Add taxonomy filters
         $tax_query = array('relation' => 'AND');
-        
+
         if (!empty($settings['categories'])) {
             $tax_query[] = array(
                 'taxonomy' => 'travel_category',
@@ -381,106 +384,130 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
         }
 
         $query = new WP_Query($args);
+
+        // Get all purposes for filter
+        $all_purposes = get_terms(array(
+            'taxonomy' => 'travel_purpose',
+            'hide_empty' => false,
+        ));
         ?>
 
         <div class="travelcurator-packages-grid elementor-widget" data-columns="<?php echo esc_attr($settings['columns']); ?>">
-            
+
             <?php if ($settings['show_filters'] === 'yes') : ?>
-            <div class="packages-filters">
-                <div class="filter-tabs">
-                    <button class="filter-tab active" data-filter="all">Todos</button>
+            <!-- NEW HEADER WITH EMOTIONAL PURPOSE FILTERS -->
+            <div class="tc-experiences-header">
+                <div class="tc-purpose-filters">
+                    <button class="tc-purpose-pill active" data-purpose="all">Todas as Experiências</button>
                     <?php
-                    $categories = get_terms(array('taxonomy' => 'travel_category', 'hide_empty' => true));
-                    foreach ($categories as $category) :
+                    if (!is_wp_error($all_purposes) && !empty($all_purposes)) :
+                        foreach ($all_purposes as $purpose) :
                     ?>
-                    <button class="filter-tab" data-filter="<?php echo esc_attr($category->slug); ?>">
-                        <?php echo esc_html($category->name); ?>
-                    </button>
-                    <?php endforeach; ?>
+                        <button class="tc-purpose-pill" data-purpose="<?php echo esc_attr($purpose->slug); ?>">
+                            <?php echo esc_html($purpose->name); ?>
+                        </button>
+                    <?php
+                        endforeach;
+                    endif;
+                    ?>
+                </div>
+                <div class="tc-header-content">
+                    <h2 class="tc-header-title">Nossas Experiências Curadas</h2>
+                    <p class="tc-header-subtitle">Cada experiência é cuidadosamente desenhada para despertar emoções específicas e criar memórias duradouras.</p>
                 </div>
             </div>
             <?php endif; ?>
 
             <div class="packages-grid columns-<?php echo esc_attr($settings['columns']); ?>">
                 <?php if ($query->have_posts()) : ?>
-                    <?php while ($query->have_posts()) : $query->the_post(); 
+                    <?php while ($query->have_posts()) : $query->the_post();
                         $package_id = get_the_ID();
                         $price = get_post_meta($package_id, '_travelcurator_price', true);
                         $duration = get_post_meta($package_id, '_travelcurator_duration', true);
                         $difficulty = get_post_meta($package_id, '_travelcurator_difficulty', true);
                         $location = get_post_meta($package_id, '_travelcurator_location', true);
-                        
-                        // Get categories for filtering
+                        $highlights = get_post_meta($package_id, '_travelcurator_highlights', true);
+
+                        // Get taxonomies
                         $categories = get_the_terms($package_id, 'travel_category');
-                        $category_classes = '';
-                        if ($categories && !is_wp_error($categories)) {
-                            foreach ($categories as $category) {
-                                $category_classes .= ' filter-' . $category->slug;
-                            }
+                        $purposes = get_the_terms($package_id, 'travel_purpose');
+
+                        $purpose_slug = '';
+                        if ($purposes && !is_wp_error($purposes)) {
+                            $purpose_slug = $purposes[0]->slug;
                         }
+
+                        // Get icon for purpose (you can customize this)
+                        $purpose_icons = array(
+                            'reconexao' => '🍷',
+                            'celebracao' => '🎉',
+                            'descoberta' => '🧭',
+                            'transformacao' => '🦋',
+                            'descanso' => '🌴'
+                        );
+                        $purpose_icon = isset($purpose_icons[$purpose_slug]) ? $purpose_icons[$purpose_slug] : '✨';
                     ?>
-                    <article class="package-card<?php echo esc_attr($category_classes); ?>">
+                    <!-- NEW CARD DESIGN -->
+                    <article class="package-card" data-purpose="<?php echo esc_attr($purpose_slug); ?>">
                         <div class="card-image">
-                            <a href="<?php the_permalink(); ?>">
-                                <?php if (has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail('large', array('class' => 'card-img')); ?>
-                                <?php else : ?>
-                                    <div class="placeholder-image">
-                                        <i class="fas fa-image"></i>
-                                    </div>
-                                <?php endif; ?>
-                            </a>
-                            
-                            <?php if ($categories && !is_wp_error($categories)) : ?>
-                            <div class="package-labels">
-                                <span class="category-label"><?php echo esc_html($categories[0]->name); ?></span>
-                            </div>
+                            <?php if (has_post_thumbnail()) : ?>
+                                <?php the_post_thumbnail('large'); ?>
+                            <?php else : ?>
+                                <div style="width:100%;height:100%;background:#e8e8e8;display:flex;align-items:center;justify-content:center;">
+                                    <span style="font-size:48px;color:#ccc;">📸</span>
+                                </div>
                             <?php endif; ?>
 
-                            <button class="wishlist-btn" onclick="toggleWishlist(<?php echo $package_id; ?>)">
-                                <i class="far fa-heart"></i>
-                            </button>
+                            <!-- Purpose Badge (Top-Left) -->
+                            <?php if ($purposes && !is_wp_error($purposes)) : ?>
+                                <div class="purpose-badge"><?php echo esc_html($purposes[0]->name); ?></div>
+                            <?php endif; ?>
+
+                            <!-- Centered Icon -->
+                            <div class="card-icon"><?php echo $purpose_icon; ?></div>
                         </div>
 
                         <div class="card-content">
+                            <!-- Category Label (Orange Badge) -->
+                            <?php if ($categories && !is_wp_error($categories)) : ?>
+                                <span class="category-badge"><?php echo esc_html($categories[0]->name); ?></span>
+                            <?php endif; ?>
+
+                            <!-- Title -->
                             <h3 class="package-title">
-                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                <a href="javascript:void(0);" onclick="openPackageModal(<?php echo $package_id; ?>)">
+                                    <?php the_title(); ?>
+                                </a>
                             </h3>
-                            
-                            <div class="package-location">
-                                <i class="fas fa-map-marker-alt"></i> <?php echo esc_html($location); ?>
+
+                            <!-- Description -->
+                            <div class="package-description">
+                                <?php echo wp_trim_words(get_the_excerpt(), 20); ?>
                             </div>
 
-                            <div class="package-excerpt">
-                                <?php echo wp_trim_words(get_the_excerpt(), 15); ?>
-                            </div>
-
-                            <div class="package-meta">
-                                <div class="meta-item">
-                                    <i class="fas fa-clock"></i>
-                                    <span><?php echo esc_html($duration); ?></span>
+                            <!-- Meta Info -->
+                            <div class="package-meta-info">
+                                <div class="package-duration">
+                                    <?php echo esc_html($duration ? $duration : '7 dias / 6 noites'); ?>
                                 </div>
-                                <div class="meta-item">
-                                    <i class="fas fa-signal"></i>
-                                    <span class="difficulty-<?php echo esc_attr($difficulty); ?>">
-                                        <?php echo ucfirst($difficulty); ?>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="card-footer">
                                 <div class="package-price">
                                     <?php if (!empty($price) && $price > 0): ?>
-                                        <span class="price-label">A partir de</span>
-                                        <span class="price-value">R$ <?php echo number_format((float)$price, 2, ',', '.'); ?></span>
-                                        <span class="price-per">por pessoa</span>
+                                        A partir de R$ <?php echo number_format((float)$price, 0, ',', '.'); ?>
                                     <?php else: ?>
-                                        <span class="price-value" style="font-size: 18px; font-weight: 600;">Sob Consulta</span>
+                                        Sob Consulta
                                     <?php endif; ?>
                                 </div>
-                                <button class="btn btn-primary" onclick="openLeadModal(<?php echo $package_id; ?>)">
-                                    <i class="fas fa-paper-plane"></i> Solicitar
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="card-buttons">
+                                <button class="btn-details" onclick="openPackageModal(<?php echo $package_id; ?>)">
+                                    Ver Detalhes
                                 </button>
+                                <a href="https://wa.me/<?php echo esc_attr($whatsapp_number); ?>?text=<?php echo urlencode('Olá! Tenho interesse no pacote: ' . get_the_title()); ?>"
+                                   class="btn-interest" target="_blank" rel="noopener">
+                                    Tenho Interesse
+                                </a>
                             </div>
                         </div>
                     </article>
@@ -500,77 +527,114 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                     'total' => $query->max_num_pages,
                     'current' => max(1, get_query_var('paged')),
                     'format' => '?paged=%#%',
-                    'prev_text' => '<i class="fas fa-chevron-left"></i>',
-                    'next_text' => '<i class="fas fa-chevron-right"></i>',
+                    'prev_text' => '← Anterior',
+                    'next_text' => 'Próxima →',
                 ));
                 ?>
             </div>
             <?php endif; ?>
+
+            <!-- MODAL POPUPS FOR EACH PACKAGE -->
+            <?php
+            if ($query->have_posts()) :
+                $query->rewind_posts();
+                while ($query->have_posts()) : $query->the_post();
+                    $package_id = get_the_ID();
+                    $price = get_post_meta($package_id, '_travelcurator_price', true);
+                    $duration = get_post_meta($package_id, '_travelcurator_duration', true);
+                    $highlights = get_post_meta($package_id, '_travelcurator_highlights', true);
+
+                    // Get taxonomies
+                    $categories = get_the_terms($package_id, 'travel_category');
+
+                    // Parse highlights - expect newline-separated list
+                    $highlights_array = array();
+                    if (!empty($highlights)) {
+                        $highlights_array = array_filter(explode("\n", $highlights));
+                    }
+
+                    // Default highlights if none set
+                    if (empty($highlights_array)) {
+                        $highlights_array = array(
+                            'Hospedagem em acomodação premium',
+                            'Passeios e experiências exclusivas',
+                            'Guia especializado em português',
+                            'Traslados inclusos',
+                            'Seguro viagem completo'
+                        );
+                    }
+            ?>
+            <div class="tc-modal-overlay" id="tc-modal-<?php echo $package_id; ?>">
+                <div class="tc-modal">
+                    <button class="tc-modal-close" onclick="document.getElementById('tc-modal-<?php echo $package_id; ?>').classList.remove('active'); document.body.style.overflow = '';">×</button>
+                    <div class="tc-modal-content">
+                        <h2 class="tc-modal-title"><?php the_title(); ?></h2>
+
+                        <?php if ($categories && !is_wp_error($categories)) : ?>
+                            <span class="tc-modal-category"><?php echo esc_html($categories[0]->name); ?></span>
+                        <?php endif; ?>
+
+                        <div class="tc-modal-description">
+                            <?php the_content(); ?>
+                        </div>
+
+                        <div class="tc-modal-highlights">
+                            <h4>Destaques da Experiência:</h4>
+                            <ul class="tc-highlights-list">
+                                <?php foreach ($highlights_array as $highlight) : ?>
+                                    <li><?php echo esc_html(trim($highlight)); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+
+                        <div class="tc-modal-footer">
+                            <div class="tc-modal-meta">
+                                <div class="tc-modal-duration">
+                                    <?php echo esc_html($duration ? $duration : '7 dias / 6 noites'); ?>
+                                </div>
+                                <div class="tc-modal-price">
+                                    <?php if (!empty($price) && $price > 0): ?>
+                                        A partir de R$ <?php echo number_format((float)$price, 0, ',', '.'); ?>
+                                    <?php else: ?>
+                                        Sob Consulta
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="tc-modal-buttons">
+                                <button class="btn-modal-close" onclick="document.getElementById('tc-modal-<?php echo $package_id; ?>').classList.remove('active'); document.body.style.overflow = '';">
+                                    Fechar
+                                </button>
+                                <a href="https://wa.me/<?php echo esc_attr($whatsapp_number); ?>?text=<?php echo urlencode('Olá! Tenho interesse no pacote: ' . get_the_title()); ?>"
+                                   class="btn-modal-interest" target="_blank" rel="noopener">
+                                    Tenho Interesse
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+                endwhile;
+            endif;
+            ?>
         </div>
 
         <?php wp_reset_postdata(); ?>
 
         <script>
-        // Filter functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterTabs = document.querySelectorAll('.filter-tab');
-            const packageCards = document.querySelectorAll('.package-card');
-
-            filterTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Remove active class from all tabs
-                    filterTabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const filter = this.getAttribute('data-filter');
-
-                    packageCards.forEach(card => {
-                        if (filter === 'all' || card.classList.contains('filter-' + filter)) {
-                            card.style.display = 'block';
-                            card.style.animation = 'fadeInUp 0.5s ease';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            });
-        });
-
-        // Wishlist functionality
-        function toggleWishlist(packageId) {
-            const btn = event.target.closest('.wishlist-btn');
-            const icon = btn.querySelector('i');
-            
-            if (icon.classList.contains('far')) {
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-                btn.classList.add('active');
-            } else {
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-                btn.classList.remove('active');
-            }
-
-            // Save to localStorage
-            let wishlist = JSON.parse(localStorage.getItem('travelcurator_wishlist') || '[]');
-            const index = wishlist.indexOf(packageId);
-            
-            if (index === -1) {
-                wishlist.push(packageId);
-            } else {
-                wishlist.splice(index, 1);
-            }
-            
-            localStorage.setItem('travelcurator_wishlist', JSON.stringify(wishlist));
-        }
-
-        // Lead modal functionality
-        function openLeadModal(packageId) {
-            // This would open the lead modal - implementation depends on your modal system
-            if (typeof window.openLeadModal === 'function') {
-                window.openLeadModal(packageId);
+        // Modal functionality
+        function openPackageModal(packageId) {
+            const modal = document.getElementById('tc-modal-' + packageId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
             }
         }
+
+        // Pass WhatsApp number to JavaScript
+        var travelcuratorData = {
+            whatsappNumber: '<?php echo esc_js($whatsapp_number); ?>'
+        };
         </script>
 
         <?php
