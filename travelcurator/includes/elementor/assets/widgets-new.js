@@ -8,13 +8,11 @@
 
     // Purpose filter functionality
     function initPurposeFilters() {
-        $('.tc-purpose-pill').on('click', function() {
-            const $this = $(this);
-            const filter = $this.data('purpose');
-
+        // Function to apply filter
+        function applyFilter(filter) {
             // Update active state
             $('.tc-purpose-pill').removeClass('active');
-            $this.addClass('active');
+            $('.tc-purpose-pill[data-purpose="' + filter + '"]').addClass('active');
 
             // Filter packages
             if (filter === 'all') {
@@ -23,7 +21,44 @@
                 $('.package-card').hide();
                 $('.package-card[data-purpose="' + filter + '"]').fadeIn(300);
             }
+        }
+
+        // Handle click events
+        $('.tc-purpose-pill').on('click', function() {
+            const filter = $(this).data('purpose');
+            applyFilter(filter);
+
+            // Update URL without reload
+            const url = new URL(window.location.href);
+            if (filter === 'all') {
+                url.searchParams.delete('purpose');
+            } else {
+                url.searchParams.set('purpose', filter);
+            }
+            window.history.pushState({}, '', url);
         });
+
+        // Check URL parameters on load
+        const urlParams = new URLSearchParams(window.location.search);
+        const purposeParam = urlParams.get('purpose');
+
+        if (purposeParam) {
+            // Check if pill exists for this purpose
+            const $pill = $('.tc-purpose-pill[data-purpose="' + purposeParam + '"]');
+            if ($pill.length) {
+                applyFilter(purposeParam);
+
+                // Scroll to packages section
+                setTimeout(function() {
+                    const $grid = $('.packages-grid');
+                    if ($grid.length) {
+                        $('html, body').animate({
+                            scrollTop: $grid.offset().top - 100
+                        }, 500);
+                    }
+                }, 300);
+            }
+        }
     }
 
     // Modal functionality

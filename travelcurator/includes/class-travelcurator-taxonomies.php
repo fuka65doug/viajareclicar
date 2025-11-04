@@ -57,6 +57,7 @@ class TravelCurator_Taxonomies {
             'show_in_nav_menus'          => true,
             'show_tagcloud'              => true,
             'show_in_rest'               => true,
+            'show_in_menu'               => 'travelcurator',
             'rewrite'                    => array(
                 'slug'                       => 'categoria-viagem',
                 'with_front'                 => false,
@@ -150,6 +151,7 @@ class TravelCurator_Taxonomies {
             'show_in_nav_menus'          => true,
             'show_tagcloud'              => true,
             'show_in_rest'               => true,
+            'show_in_menu'               => 'travelcurator',
             'rewrite'                    => array(
                 'slug'                       => 'destino',
                 'with_front'                 => false,

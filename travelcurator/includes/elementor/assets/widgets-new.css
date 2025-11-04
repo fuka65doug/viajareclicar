@@ -669,9 +669,53 @@
 .no-packages {
     text-align: center;
     padding: 80px 20px;
-    color: #5f6368;
+    color: var(--wp--preset--color--foreground, var(--wp--preset--color--text, #5f6368));
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.no-packages p {
+.no-packages-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.no-packages-title {
+    font-family: var(--wp--preset--font-family--heading, var(--wp--preset--font-family--display, 'Playfair Display', Georgia, serif));
+    font-size: 2em;
+    color: var(--wp--preset--color--heading, var(--wp--preset--color--contrast, #1A3A5F));
+    margin-bottom: 15px;
+}
+
+.no-packages-text {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.no-packages-cta {
     font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: var(--wp--preset--color--heading, var(--wp--preset--color--contrast, #1A3A5F));
+}
+
+.btn-whatsapp-cta {
+    display: inline-block;
+    background: #25D366;
+    color: #fff;
+    padding: 18px 40px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 25px rgba(37, 211, 102, 0.3);
+}
+
+.btn-whatsapp-cta:hover {
+    background: #1ebe57;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 35px rgba(37, 211, 102, 0.4);
+    color: #fff;
 }

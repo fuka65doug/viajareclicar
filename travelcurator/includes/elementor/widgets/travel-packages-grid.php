@@ -320,6 +320,15 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
             ]
         );
 
+        $this->add_group_control(
+            \Elementor\Group_Control_Text_Shadow::get_type(),
+            [
+                'name' => 'hero_title_shadow',
+                'label' => 'Sombra do Título',
+                'selector' => '{{WRAPPER}} .tc-header-title',
+            ]
+        );
+
         $this->add_control(
             'hero_subtitle_color',
             [
@@ -356,6 +365,39 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .tc-experiences-header' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'hero_margin',
+            [
+                'label' => 'Margem Externa',
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .tc-experiences-header' => 'margin-top: {{TOP}}{{UNIT}}; margin-bottom: {{BOTTOM}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'hero_border',
+                'label' => 'Borda',
+                'selector' => '{{WRAPPER}} .tc-experiences-header',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'hero_border_radius',
+            [
+                'label' => 'Arredondamento das Bordas',
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .tc-experiences-header' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -770,6 +812,19 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                             'descanso' => '🌴'
                         );
                         $purpose_icon = isset($purpose_icons[$purpose_slug]) ? $purpose_icons[$purpose_slug] : '✨';
+
+                        // Translate difficulty to Portuguese
+                        $difficulty_translations = array(
+                            'easy' => 'Fácil',
+                            'moderate' => 'Moderado',
+                            'difficult' => 'Difícil',
+                            'hard' => 'Difícil',
+                            'extreme' => 'Extremo',
+                            'challenging' => 'Desafiador'
+                        );
+                        $difficulty_pt = isset($difficulty_translations[strtolower($difficulty)])
+                            ? $difficulty_translations[strtolower($difficulty)]
+                            : ucfirst($difficulty);
                     ?>
                     <!-- NEW CARD DESIGN -->
                     <article class="package-card" data-purpose="<?php echo esc_attr($purpose_slug); ?>">
@@ -817,7 +872,7 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                                     <?php endif; ?>
                                     <?php if ($difficulty) : ?>
                                         <span class="package-difficulty" style="margin-left: 10px;">
-                                            🏔️ <?php echo esc_html(ucfirst($difficulty)); ?>
+                                            🏔️ <?php echo esc_html($difficulty_pt); ?>
                                         </span>
                                     <?php endif; ?>
                                 </div>
@@ -845,7 +900,14 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                     <?php endwhile; ?>
                 <?php else : ?>
                     <div class="no-packages">
-                        <p>Nenhum pacote encontrado.</p>
+                        <div class="no-packages-icon">😔</div>
+                        <h3 class="no-packages-title">Nenhuma experiência encontrada</h3>
+                        <p class="no-packages-text">Não encontramos pacotes para este propósito emocional no momento.</p>
+                        <p class="no-packages-cta">Mas podemos criar uma experiência personalizada para você!</p>
+                        <a href="https://wa.me/<?php echo esc_attr($whatsapp_number); ?>?text=<?php echo urlencode('Olá! Gostaria de uma experiência personalizada. Podem me ajudar?'); ?>"
+                           class="btn-whatsapp-cta" target="_blank" rel="noopener">
+                            💬 Fale Conosco no WhatsApp
+                        </a>
                     </div>
                 <?php endif; ?>
             </div>
@@ -876,6 +938,19 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                     $duration = get_post_meta($package_id, '_travelcurator_duration', true);
                     $difficulty = get_post_meta($package_id, '_travelcurator_difficulty', true);
                     $highlights = get_post_meta($package_id, '_travelcurator_highlights', true);
+
+                    // Translate difficulty to Portuguese
+                    $difficulty_translations = array(
+                        'easy' => 'Fácil',
+                        'moderate' => 'Moderado',
+                        'difficult' => 'Difícil',
+                        'hard' => 'Difícil',
+                        'extreme' => 'Extremo',
+                        'challenging' => 'Desafiador'
+                    );
+                    $difficulty_pt = isset($difficulty_translations[strtolower($difficulty)])
+                        ? $difficulty_translations[strtolower($difficulty)]
+                        : ucfirst($difficulty);
 
                     // Get taxonomies
                     $categories = get_the_terms($package_id, 'travel_category');
@@ -928,7 +1003,7 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                                     <?php endif; ?>
                                     <?php if ($difficulty) : ?>
                                         <span style="margin-left: 10px;">
-                                            🏔️ <?php echo esc_html(ucfirst($difficulty)); ?>
+                                            🏔️ <?php echo esc_html($difficulty_pt); ?>
                                         </span>
                                     <?php endif; ?>
                                 </div>
