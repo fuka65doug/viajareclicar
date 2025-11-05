@@ -120,6 +120,20 @@ class TravelCurator_Admin {
 			'manage_categories',
 			'edit-tags.php?taxonomy=travel_destination&post_type=travel_package'
 		);
+		add_submenu_page(
+			'travelcurator',
+			__('Propósitos', 'travelcurator'),
+			__('Propósitos', 'travelcurator'),
+			'manage_categories',
+			'edit-tags.php?taxonomy=travel_purpose&post_type=travel_package'
+		);
+		add_submenu_page(
+			'travelcurator',
+			__('Comodidades', 'travelcurator'),
+			__('Comodidades', 'travelcurator'),
+			'manage_categories',
+			'edit-tags.php?taxonomy=travel_facilities&post_type=travel_package'
+		);
 		// Plugin-specific pages - MANTER
 		add_submenu_page(
 			'travelcurator',
