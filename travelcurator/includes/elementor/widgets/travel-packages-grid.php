@@ -163,6 +163,314 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
 
         $this->end_controls_section();
 
+        // Hero/Header Section
+        $this->start_controls_section(
+            'hero_section',
+            [
+                'label' => 'Cabeçalho (Hero)',
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+                'condition' => [
+                    'show_filters' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'hero_title',
+            [
+                'label' => 'Título do Cabeçalho',
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => 'Nossas Experiências Curadas',
+                'placeholder' => 'Digite o título',
+            ]
+        );
+
+        $this->add_control(
+            'hero_subtitle',
+            [
+                'label' => 'Subtítulo do Cabeçalho',
+                'type' => \Elementor\Controls_Manager::TEXTAREA,
+                'default' => 'Cada experiência é cuidadosamente desenhada para despertar emoções específicas e criar memórias duradouras.',
+                'placeholder' => 'Digite o subtítulo',
+            ]
+        );
+
+        $this->add_control(
+            'show_hero_title',
+            [
+                'label' => 'Mostrar Título/Subtítulo',
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => 'Sim',
+                'label_off' => 'Não',
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // Layout Section
+        $this->start_controls_section(
+            'layout_section',
+            [
+                'label' => 'Layout',
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+            'container_width',
+            [
+                'label' => 'Largura dos Cards',
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'boxed',
+                'options' => [
+                    'boxed' => 'Encaixotado (Container)',
+                    'full' => 'Largura Total (Full Width)',
+                ],
+                'description' => 'O Hero sempre respeita o full width. Esta opção controla apenas a grade de cards.',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'container_max_width',
+            [
+                'label' => 'Largura Máxima (Container)',
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'vw'],
+                'range' => [
+                    'px' => [
+                        'min' => 600,
+                        'max' => 2000,
+                        'step' => 10,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 1200,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .packages-grid-container.boxed' => 'max-width: {{SIZE}}{{UNIT}}; margin-left: auto; margin-right: auto;',
+                ],
+                'condition' => [
+                    'container_width' => 'boxed',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // Style Section - Hero
+        $this->start_controls_section(
+            'hero_style_section',
+            [
+                'label' => 'Estilo do Cabeçalho',
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+                'condition' => [
+                    'show_filters' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'hero_background',
+                'label' => 'Fundo do Cabeçalho',
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .tc-experiences-header',
+                'fields_options' => [
+                    'background' => [
+                        'default' => 'gradient',
+                    ],
+                    'color' => [
+                        'default' => 'var(--wp--preset--color--primary, #C85F4D)',
+                    ],
+                    'color_b' => [
+                        'default' => 'var(--wp--preset--color--secondary, #D4B254)',
+                    ],
+                    'gradient_angle' => [
+                        'default' => [
+                            'unit' => 'deg',
+                            'size' => 135,
+                        ],
+                    ],
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'hero_title_color',
+            [
+                'label' => 'Cor do Título',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#ffffff',
+                'selectors' => [
+                    '{{WRAPPER}} .tc-header-title' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'hero_title_typography',
+                'label' => 'Tipografia do Título',
+                'selector' => '{{WRAPPER}} .tc-header-title',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Text_Shadow::get_type(),
+            [
+                'name' => 'hero_title_shadow',
+                'label' => 'Sombra do Título',
+                'selector' => '{{WRAPPER}} .tc-header-title',
+            ]
+        );
+
+        $this->add_control(
+            'hero_subtitle_color',
+            [
+                'label' => 'Cor do Subtítulo',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'rgba(255,255,255,0.95)',
+                'selectors' => [
+                    '{{WRAPPER}} .tc-header-subtitle' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'hero_subtitle_typography',
+                'label' => 'Tipografia do Subtítulo',
+                'selector' => '{{WRAPPER}} .tc-header-subtitle',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'hero_padding',
+            [
+                'label' => 'Espaçamento Interno',
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'default' => [
+                    'top' => 60,
+                    'right' => 30,
+                    'bottom' => 60,
+                    'left' => 30,
+                    'unit' => 'px',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .tc-experiences-header' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'hero_margin',
+            [
+                'label' => 'Margem Externa',
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .tc-experiences-header' => 'margin-top: {{TOP}}{{UNIT}}; margin-bottom: {{BOTTOM}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'hero_border',
+                'label' => 'Borda',
+                'selector' => '{{WRAPPER}} .tc-experiences-header',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'hero_border_radius',
+            [
+                'label' => 'Arredondamento das Bordas',
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .tc-experiences-header' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        // Filter Pills Style
+        $this->add_control(
+            'filter_pills_heading',
+            [
+                'label' => 'Estilo dos Filtros (Pills)',
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'filter_pill_bg',
+            [
+                'label' => 'Cor de Fundo',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'rgba(255, 255, 255, 0.95)',
+                'selectors' => [
+                    '{{WRAPPER}} .tc-purpose-pill' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'filter_pill_color',
+            [
+                'label' => 'Cor do Texto',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'var(--wp--preset--color--text, #1A3A5F)',
+                'selectors' => [
+                    '{{WRAPPER}} .tc-purpose-pill' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'filter_pill_active_bg',
+            [
+                'label' => 'Cor de Fundo (Ativo)',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'var(--wp--preset--color--accent, #D4B254)',
+                'selectors' => [
+                    '{{WRAPPER}} .tc-purpose-pill.active' => 'background-color: {{VALUE}}; border-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'filter_pill_active_color',
+            [
+                'label' => 'Cor do Texto (Ativo)',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#ffffff',
+                'selectors' => [
+                    '{{WRAPPER}} .tc-purpose-pill.active' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'filter_pill_typography',
+                'label' => 'Tipografia dos Filtros',
+                'selector' => '{{WRAPPER}} .tc-purpose-pill',
+            ]
+        );
+
+        $this->end_controls_section();
+
         // Style Section
         $this->start_controls_section(
             'style_section',
@@ -219,7 +527,7 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
             [
                 'label' => 'Cor do Título',
                 'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#1A3A5F',
+                'default' => 'var(--wp--preset--color--heading, #1A3A5F)',
                 'selectors' => [
                     '{{WRAPPER}} .package-title a' => 'color: {{VALUE}};',
                 ],
@@ -232,17 +540,6 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                 'name' => 'title_typography',
                 'label' => 'Tipografia do Título',
                 'selector' => '{{WRAPPER}} .package-title',
-                'fields_options' => [
-                    'font_size' => [
-                        'default' => [
-                            'size' => 20,
-                            'unit' => 'px',
-                        ],
-                    ],
-                    'font_weight' => [
-                        'default' => '700',
-                    ],
-                ],
             ]
         );
 
@@ -251,68 +548,134 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
             [
                 'label' => 'Cor do Preço',
                 'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#F2B705',
+                'default' => 'var(--wp--preset--color--primary, #1A3A5F)',
                 'selectors' => [
-                    '{{WRAPPER}} .price-value' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .package-price' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        // Badges Section
+        $this->add_control(
+            'badges_heading',
+            [
+                'label' => 'Badges',
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'purpose_badge_bg',
+            [
+                'label' => 'Cor do Badge de Propósito',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'var(--wp--preset--color--accent, #D4B254)',
+                'selectors' => [
+                    '{{WRAPPER}} .purpose-badge' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'category_badge_bg',
+            [
+                'label' => 'Cor do Badge de Categoria',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'var(--wp--preset--color--secondary, #C85F4D)',
+                'selectors' => [
+                    '{{WRAPPER}} .category-badge' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
 
         $this->end_controls_section();
 
-        // Button Style
+        // Button Style - Details Button
         $this->start_controls_section(
-            'button_style_section',
+            'button_details_style_section',
             [
-                'label' => 'Estilo do Botão',
+                'label' => 'Botão "Ver Detalhes"',
                 'tab' => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
 
         $this->add_control(
-            'button_bg_color',
+            'btn_details_bg',
             [
                 'label' => 'Cor de Fundo',
                 'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#F2B705',
+                'default' => 'transparent',
                 'selectors' => [
-                    '{{WRAPPER}} .btn-primary' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .btn-details' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
 
         $this->add_control(
-            'button_text_color',
+            'btn_details_color',
             [
                 'label' => 'Cor do Texto',
                 'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => '#FFFFFF',
+                'default' => 'var(--wp--preset--color--primary, #1A3A5F)',
                 'selectors' => [
-                    '{{WRAPPER}} .btn-primary' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .btn-details' => 'color: {{VALUE}}; border-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'btn_details_typography',
+                'label' => 'Tipografia',
+                'selector' => '{{WRAPPER}} .btn-details',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // Button Style - Interest Button
+        $this->start_controls_section(
+            'button_interest_style_section',
+            [
+                'label' => 'Botão "Tenho Interesse"',
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'btn_interest_bg',
+            [
+                'label' => 'Cor de Fundo',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => 'var(--wp--preset--color--secondary, #C85F4D)',
+                'selectors' => [
+                    '{{WRAPPER}} .btn-interest' => 'background-color: {{VALUE}}; border-color: {{VALUE}};',
+                    '{{WRAPPER}} .btn-modal-interest' => 'background-color: {{VALUE}}; border-color: {{VALUE}};',
                 ],
             ]
         );
 
         $this->add_control(
-            'button_border_radius',
+            'btn_interest_color',
             [
-                'label' => 'Border Radius',
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['px', '%'],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 50,
-                        'step' => 1,
-                    ],
-                ],
-                'default' => [
-                    'unit' => 'px',
-                    'size' => 25,
-                ],
+                'label' => 'Cor do Texto',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#ffffff',
                 'selectors' => [
-                    '{{WRAPPER}} .btn-primary' => 'border-radius: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .btn-interest' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .btn-modal-interest' => 'color: {{VALUE}};',
                 ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'btn_interest_typography',
+                'label' => 'Tipografia',
+                'selector' => '{{WRAPPER}} .btn-interest, {{WRAPPER}} .btn-modal-interest',
             ]
         );
 
@@ -321,7 +684,10 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
 
     protected function render() {
         $settings = $this->get_settings_for_display();
-        
+
+        // Get WhatsApp number from settings
+        $whatsapp_number = get_option('travelcurator_whatsapp_number', '');
+
         // Query arguments
         $args = array(
             'post_type' => 'travel_package',
@@ -338,7 +704,7 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
 
         // Add taxonomy filters
         $tax_query = array('relation' => 'AND');
-        
+
         if (!empty($settings['categories'])) {
             $tax_query[] = array(
                 'taxonomy' => 'travel_category',
@@ -381,109 +747,167 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
         }
 
         $query = new WP_Query($args);
+
+        // Get all purposes for filter
+        $all_purposes = get_terms(array(
+            'taxonomy' => 'travel_purpose',
+            'hide_empty' => false,
+        ));
         ?>
 
         <div class="travelcurator-packages-grid elementor-widget" data-columns="<?php echo esc_attr($settings['columns']); ?>">
-            
+
             <?php if ($settings['show_filters'] === 'yes') : ?>
-            <div class="packages-filters">
-                <div class="filter-tabs">
-                    <button class="filter-tab active" data-filter="all">Todos</button>
+            <!-- NEW HEADER WITH EMOTIONAL PURPOSE FILTERS -->
+            <div class="tc-experiences-header">
+                <div class="tc-purpose-filters">
+                    <button class="tc-purpose-pill active" data-purpose="all">Todas as Experiências</button>
                     <?php
-                    $categories = get_terms(array('taxonomy' => 'travel_category', 'hide_empty' => true));
-                    foreach ($categories as $category) :
+                    if (!is_wp_error($all_purposes) && !empty($all_purposes)) :
+                        foreach ($all_purposes as $purpose) :
                     ?>
-                    <button class="filter-tab" data-filter="<?php echo esc_attr($category->slug); ?>">
-                        <?php echo esc_html($category->name); ?>
-                    </button>
-                    <?php endforeach; ?>
+                        <button class="tc-purpose-pill" data-purpose="<?php echo esc_attr($purpose->slug); ?>">
+                            <?php echo esc_html($purpose->name); ?>
+                        </button>
+                    <?php
+                        endforeach;
+                    endif;
+                    ?>
                 </div>
+                <?php if ($settings['show_hero_title'] === 'yes') : ?>
+                <div class="tc-header-content">
+                    <h2 class="tc-header-title"><?php echo esc_html($settings['hero_title']); ?></h2>
+                    <p class="tc-header-subtitle"><?php echo esc_html($settings['hero_subtitle']); ?></p>
+                </div>
+                <?php endif; ?>
             </div>
             <?php endif; ?>
 
-            <div class="packages-grid columns-<?php echo esc_attr($settings['columns']); ?>">
+            <div class="packages-grid-container <?php echo esc_attr($settings['container_width']); ?>">
+                <div class="packages-grid columns-<?php echo esc_attr($settings['columns']); ?>">
                 <?php if ($query->have_posts()) : ?>
-                    <?php while ($query->have_posts()) : $query->the_post(); 
+                    <?php while ($query->have_posts()) : $query->the_post();
                         $package_id = get_the_ID();
                         $price = get_post_meta($package_id, '_travelcurator_price', true);
                         $duration = get_post_meta($package_id, '_travelcurator_duration', true);
                         $difficulty = get_post_meta($package_id, '_travelcurator_difficulty', true);
                         $location = get_post_meta($package_id, '_travelcurator_location', true);
-                        
-                        // Get categories for filtering
+                        $highlights = get_post_meta($package_id, '_travelcurator_highlights', true);
+
+                        // Get taxonomies
                         $categories = get_the_terms($package_id, 'travel_category');
-                        $category_classes = '';
-                        if ($categories && !is_wp_error($categories)) {
-                            foreach ($categories as $category) {
-                                $category_classes .= ' filter-' . $category->slug;
-                            }
+                        $purposes = get_the_terms($package_id, 'travel_purpose');
+
+                        $purpose_slug = '';
+                        if ($purposes && !is_wp_error($purposes)) {
+                            $purpose_slug = $purposes[0]->slug;
                         }
+
+                        // Get icon for purpose (you can customize this)
+                        $purpose_icons = array(
+                            'reconexao' => '🍷',
+                            'celebracao' => '🎉',
+                            'descoberta' => '🧭',
+                            'transformacao' => '🦋',
+                            'descanso' => '🌴'
+                        );
+                        $purpose_icon = isset($purpose_icons[$purpose_slug]) ? $purpose_icons[$purpose_slug] : '✨';
+
+                        // Translate difficulty to Portuguese
+                        $difficulty_translations = array(
+                            'easy' => 'Fácil',
+                            'moderate' => 'Moderado',
+                            'difficult' => 'Difícil',
+                            'hard' => 'Difícil',
+                            'extreme' => 'Extremo',
+                            'challenging' => 'Desafiador'
+                        );
+                        $difficulty_pt = isset($difficulty_translations[strtolower($difficulty)])
+                            ? $difficulty_translations[strtolower($difficulty)]
+                            : ucfirst($difficulty);
                     ?>
-                    <article class="package-card<?php echo esc_attr($category_classes); ?>">
+                    <!-- NEW CARD DESIGN -->
+                    <article class="package-card" data-purpose="<?php echo esc_attr($purpose_slug); ?>">
                         <div class="card-image">
-                            <a href="<?php the_permalink(); ?>">
-                                <?php if (has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail('large', array('class' => 'card-img')); ?>
-                                <?php else : ?>
-                                    <div class="placeholder-image">
-                                        <i class="fas fa-image"></i>
-                                    </div>
-                                <?php endif; ?>
-                            </a>
-                            
-                            <?php if ($categories && !is_wp_error($categories)) : ?>
-                            <div class="package-labels">
-                                <span class="category-label"><?php echo esc_html($categories[0]->name); ?></span>
-                            </div>
+                            <?php if (has_post_thumbnail()) : ?>
+                                <?php the_post_thumbnail('large'); ?>
+                            <?php else : ?>
+                                <div style="width:100%;height:100%;background:#e8e8e8;display:flex;align-items:center;justify-content:center;">
+                                    <span style="font-size:48px;color:#ccc;">📸</span>
+                                </div>
                             <?php endif; ?>
 
-                            <button class="wishlist-btn" onclick="toggleWishlist(<?php echo $package_id; ?>)">
-                                <i class="far fa-heart"></i>
-                            </button>
+                            <!-- Purpose Badge (Top-Left) -->
+                            <?php if ($purposes && !is_wp_error($purposes)) : ?>
+                                <div class="purpose-badge"><?php echo esc_html($purposes[0]->name); ?></div>
+                            <?php endif; ?>
+
+                            <!-- Centered Icon -->
+                            <div class="card-icon"><?php echo $purpose_icon; ?></div>
                         </div>
 
                         <div class="card-content">
+                            <!-- Category Label (Orange Badge) -->
+                            <?php if ($categories && !is_wp_error($categories)) : ?>
+                                <span class="category-badge"><?php echo esc_html($categories[0]->name); ?></span>
+                            <?php endif; ?>
+
+                            <!-- Title -->
                             <h3 class="package-title">
-                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                <a href="javascript:void(0);" onclick="openPackageModal(<?php echo $package_id; ?>)">
+                                    <?php the_title(); ?>
+                                </a>
                             </h3>
-                            
-                            <div class="package-location">
-                                <i class="fas fa-map-marker-alt"></i> <?php echo esc_html($location); ?>
+
+                            <!-- Description -->
+                            <div class="package-description">
+                                <?php echo wp_trim_words(get_the_excerpt(), 20); ?>
                             </div>
 
-                            <div class="package-excerpt">
-                                <?php echo wp_trim_words(get_the_excerpt(), 15); ?>
-                            </div>
-
-                            <div class="package-meta">
-                                <div class="meta-item">
-                                    <i class="fas fa-clock"></i>
-                                    <span><?php echo esc_html($duration); ?></span>
+                            <!-- Meta Info -->
+                            <div class="package-meta-info">
+                                <div class="package-duration">
+                                    <?php if ($duration) : ?>
+                                        ⏱️ <?php echo esc_html($duration); ?>
+                                    <?php endif; ?>
+                                    <?php if ($difficulty) : ?>
+                                        <span class="package-difficulty" style="margin-left: 10px;">
+                                            🏔️ <?php echo esc_html($difficulty_pt); ?>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
-                                <div class="meta-item">
-                                    <i class="fas fa-signal"></i>
-                                    <span class="difficulty-<?php echo esc_attr($difficulty); ?>">
-                                        <?php echo ucfirst($difficulty); ?>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="card-footer">
                                 <div class="package-price">
-                                    <span class="price-label">A partir de</span>
-                                    <span class="price-value">R$ <?php echo number_format($price, 2, ',', '.'); ?></span>
-                                    <span class="price-per">por pessoa</span>
+                                    <?php if (!empty($price) && $price > 0): ?>
+                                        A partir de R$ <?php echo number_format((float)$price, 0, ',', '.'); ?>
+                                    <?php else: ?>
+                                        Sob Consulta
+                                    <?php endif; ?>
                                 </div>
-                                <button class="btn btn-primary" onclick="openLeadModal(<?php echo $package_id; ?>)">
-                                    <i class="fas fa-paper-plane"></i> Solicitar
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="card-buttons">
+                                <button class="btn-details" onclick="openPackageModal(<?php echo $package_id; ?>)">
+                                    Ver Detalhes
                                 </button>
+                                <a href="https://wa.me/<?php echo esc_attr($whatsapp_number); ?>?text=<?php echo urlencode('Olá! Tenho interesse no pacote: ' . get_the_title()); ?>"
+                                   class="btn-interest" target="_blank" rel="noopener">
+                                    Tenho Interesse
+                                </a>
                             </div>
                         </div>
                     </article>
                     <?php endwhile; ?>
                 <?php else : ?>
                     <div class="no-packages">
-                        <p>Nenhum pacote encontrado.</p>
+                        <div class="no-packages-icon">😔</div>
+                        <h3 class="no-packages-title">Nenhuma experiência encontrada</h3>
+                        <p class="no-packages-text">Não encontramos pacotes para este propósito emocional no momento.</p>
+                        <p class="no-packages-cta">Mas podemos criar uma experiência personalizada para você!</p>
+                        <a href="https://wa.me/<?php echo esc_attr($whatsapp_number); ?>?text=<?php echo urlencode('Olá! Gostaria de uma experiência personalizada. Podem me ajudar?'); ?>"
+                           class="btn-whatsapp-cta" target="_blank" rel="noopener">
+                            💬 Fale Conosco no WhatsApp
+                        </a>
                     </div>
                 <?php endif; ?>
             </div>
@@ -496,77 +920,136 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                     'total' => $query->max_num_pages,
                     'current' => max(1, get_query_var('paged')),
                     'format' => '?paged=%#%',
-                    'prev_text' => '<i class="fas fa-chevron-left"></i>',
-                    'next_text' => '<i class="fas fa-chevron-right"></i>',
+                    'prev_text' => '← Anterior',
+                    'next_text' => 'Próxima →',
                 ));
                 ?>
             </div>
             <?php endif; ?>
+            </div><!-- .packages-grid-container -->
+
+            <!-- MODAL POPUPS FOR EACH PACKAGE -->
+            <?php
+            if ($query->have_posts()) :
+                $query->rewind_posts();
+                while ($query->have_posts()) : $query->the_post();
+                    $package_id = get_the_ID();
+                    $price = get_post_meta($package_id, '_travelcurator_price', true);
+                    $duration = get_post_meta($package_id, '_travelcurator_duration', true);
+                    $difficulty = get_post_meta($package_id, '_travelcurator_difficulty', true);
+                    $highlights = get_post_meta($package_id, '_travelcurator_highlights', true);
+
+                    // Translate difficulty to Portuguese
+                    $difficulty_translations = array(
+                        'easy' => 'Fácil',
+                        'moderate' => 'Moderado',
+                        'difficult' => 'Difícil',
+                        'hard' => 'Difícil',
+                        'extreme' => 'Extremo',
+                        'challenging' => 'Desafiador'
+                    );
+                    $difficulty_pt = isset($difficulty_translations[strtolower($difficulty)])
+                        ? $difficulty_translations[strtolower($difficulty)]
+                        : ucfirst($difficulty);
+
+                    // Get taxonomies
+                    $categories = get_the_terms($package_id, 'travel_category');
+
+                    // Parse highlights - expect newline-separated list
+                    $highlights_array = array();
+                    if (!empty($highlights)) {
+                        $highlights_array = array_filter(explode("\n", $highlights));
+                    }
+
+                    // Default highlights if none set
+                    if (empty($highlights_array)) {
+                        $highlights_array = array(
+                            'Hospedagem em acomodação premium',
+                            'Passeios e experiências exclusivas',
+                            'Guia especializado em português',
+                            'Traslados inclusos',
+                            'Seguro viagem completo'
+                        );
+                    }
+            ?>
+            <div class="tc-modal-overlay" id="tc-modal-<?php echo $package_id; ?>">
+                <div class="tc-modal">
+                    <button class="tc-modal-close" onclick="document.getElementById('tc-modal-<?php echo $package_id; ?>').classList.remove('active'); document.body.style.overflow = '';">×</button>
+                    <div class="tc-modal-content">
+                        <h2 class="tc-modal-title"><?php the_title(); ?></h2>
+
+                        <?php if ($categories && !is_wp_error($categories)) : ?>
+                            <span class="tc-modal-category"><?php echo esc_html($categories[0]->name); ?></span>
+                        <?php endif; ?>
+
+                        <div class="tc-modal-description">
+                            <?php the_content(); ?>
+                        </div>
+
+                        <div class="tc-modal-highlights">
+                            <h4>Destaques da Experiência:</h4>
+                            <ul class="tc-highlights-list">
+                                <?php foreach ($highlights_array as $highlight) : ?>
+                                    <li><?php echo esc_html(trim($highlight)); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+
+                        <div class="tc-modal-footer">
+                            <div class="tc-modal-meta">
+                                <div class="tc-modal-duration">
+                                    <?php if ($duration) : ?>
+                                        ⏱️ <?php echo esc_html($duration); ?>
+                                    <?php endif; ?>
+                                    <?php if ($difficulty) : ?>
+                                        <span style="margin-left: 10px;">
+                                            🏔️ <?php echo esc_html($difficulty_pt); ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="tc-modal-price">
+                                    <?php if (!empty($price) && $price > 0): ?>
+                                        A partir de R$ <?php echo number_format((float)$price, 0, ',', '.'); ?>
+                                    <?php else: ?>
+                                        Sob Consulta
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="tc-modal-buttons">
+                                <button class="btn-modal-close" onclick="document.getElementById('tc-modal-<?php echo $package_id; ?>').classList.remove('active'); document.body.style.overflow = '';">
+                                    Fechar
+                                </button>
+                                <a href="https://wa.me/<?php echo esc_attr($whatsapp_number); ?>?text=<?php echo urlencode('Olá! Tenho interesse no pacote: ' . get_the_title()); ?>"
+                                   class="btn-modal-interest" target="_blank" rel="noopener">
+                                    Tenho Interesse
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+                endwhile;
+            endif;
+            ?>
         </div>
 
         <?php wp_reset_postdata(); ?>
 
         <script>
-        // Filter functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterTabs = document.querySelectorAll('.filter-tab');
-            const packageCards = document.querySelectorAll('.package-card');
-
-            filterTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Remove active class from all tabs
-                    filterTabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const filter = this.getAttribute('data-filter');
-
-                    packageCards.forEach(card => {
-                        if (filter === 'all' || card.classList.contains('filter-' + filter)) {
-                            card.style.display = 'block';
-                            card.style.animation = 'fadeInUp 0.5s ease';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            });
-        });
-
-        // Wishlist functionality
-        function toggleWishlist(packageId) {
-            const btn = event.target.closest('.wishlist-btn');
-            const icon = btn.querySelector('i');
-            
-            if (icon.classList.contains('far')) {
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-                btn.classList.add('active');
-            } else {
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-                btn.classList.remove('active');
-            }
-
-            // Save to localStorage
-            let wishlist = JSON.parse(localStorage.getItem('travelcurator_wishlist') || '[]');
-            const index = wishlist.indexOf(packageId);
-            
-            if (index === -1) {
-                wishlist.push(packageId);
-            } else {
-                wishlist.splice(index, 1);
-            }
-            
-            localStorage.setItem('travelcurator_wishlist', JSON.stringify(wishlist));
-        }
-
-        // Lead modal functionality
-        function openLeadModal(packageId) {
-            // This would open the lead modal - implementation depends on your modal system
-            if (typeof window.openLeadModal === 'function') {
-                window.openLeadModal(packageId);
+        // Modal functionality
+        function openPackageModal(packageId) {
+            const modal = document.getElementById('tc-modal-' + packageId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
             }
         }
+
+        // Pass WhatsApp number to JavaScript
+        var travelcuratorData = {
+            whatsappNumber: '<?php echo esc_js($whatsapp_number); ?>'
+        };
         </script>
 
         <?php
@@ -576,11 +1059,14 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
         $categories = get_terms(array(
             'taxonomy' => 'travel_category',
             'hide_empty' => false,
+            'fields' => 'all',
         ));
 
         $options = array();
-        foreach ($categories as $category) {
-            $options[$category->term_id] = $category->name;
+        if (!is_wp_error($categories) && !empty($categories)) {
+            foreach ($categories as $category) {
+                $options[$category->term_id] = $category->name;
+            }
         }
 
         return $options;
@@ -590,11 +1076,14 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
         $destinations = get_terms(array(
             'taxonomy' => 'travel_destination',
             'hide_empty' => false,
+            'fields' => 'all',
         ));
 
         $options = array();
-        foreach ($destinations as $destination) {
-            $options[$destination->term_id] = $destination->name;
+        if (!is_wp_error($destinations) && !empty($destinations)) {
+            foreach ($destinations as $destination) {
+                $options[$destination->term_id] = $destination->name;
+            }
         }
 
         return $options;
@@ -604,11 +1093,14 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
         $purposes = get_terms(array(
             'taxonomy' => 'travel_purpose',
             'hide_empty' => false,
+            'fields' => 'all',
         ));
 
         $options = array();
-        foreach ($purposes as $purpose) {
-            $options[$purpose->term_id] = $purpose->name;
+        if (!is_wp_error($purposes) && !empty($purposes)) {
+            foreach ($purposes as $purpose) {
+                $options[$purpose->term_id] = $purpose->name;
+            }
         }
 
         return $options;

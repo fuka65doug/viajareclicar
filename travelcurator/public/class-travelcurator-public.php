@@ -184,15 +184,501 @@ class TravelCurator_Public {
     private function register_ajax_handlers() {
         add_action('wp_ajax_travelcurator_submit_interest', array($this, 'ajax_submit_interest'));
         add_action('wp_ajax_nopriv_travelcurator_submit_interest', array($this, 'ajax_submit_interest'));
-        
+
         add_action('wp_ajax_travelcurator_filter_packages', array($this, 'ajax_filter_packages'));
         add_action('wp_ajax_nopriv_travelcurator_filter_packages', array($this, 'ajax_filter_packages'));
-        
+
         add_action('wp_ajax_travelcurator_whatsapp_click', array($this, 'ajax_whatsapp_click'));
         add_action('wp_ajax_nopriv_travelcurator_whatsapp_click', array($this, 'ajax_whatsapp_click'));
-        
+
         add_action('wp_ajax_travelcurator_track_package_view', array($this, 'ajax_track_package_view'));
         add_action('wp_ajax_nopriv_travelcurator_track_package_view', array($this, 'ajax_track_package_view'));
+
+        // Register shortcodes
+        $this->register_shortcodes();
+    }
+
+    /**
+     * Register shortcodes
+     */
+    private function register_shortcodes() {
+        add_shortcode('travelcurator_packages', array($this, 'shortcode_packages_grid'));
+        add_shortcode('travelcurator_package', array($this, 'shortcode_single_package'));
+        add_shortcode('travelcurator_search', array($this, 'shortcode_search_filter'));
+        add_shortcode('travelcurator_lead_form', array($this, 'shortcode_lead_form'));
+        add_shortcode('travelcurator_featured', array($this, 'shortcode_featured_packages'));
+    }
+
+    /**
+     * Shortcode: Grid de Pacotes
+     * Uso: [travelcurator_packages limit="6" columns="3" category="" destination=""]
+     */
+    public function shortcode_packages_grid($atts) {
+        $atts = shortcode_atts(array(
+            'limit' => 6,
+            'columns' => 3,
+            'category' => '',
+            'destination' => '',
+            'purpose' => '',
+            'orderby' => 'date',
+            'order' => 'DESC',
+        ), $atts, 'travelcurator_packages');
+
+        $args = array(
+            'post_type' => 'travel_package',
+            'posts_per_page' => intval($atts['limit']),
+            'post_status' => 'publish',
+            'orderby' => $atts['orderby'],
+            'order' => $atts['order'],
+            'meta_query' => array(
+                array(
+                    'key' => '_travelcurator_status',
+                    'value' => 'active',
+                    'compare' => '='
+                )
+            )
+        );
+
+        // Add taxonomy filters
+        $tax_query = array();
+
+        if (!empty($atts['category'])) {
+            $tax_query[] = array(
+                'taxonomy' => 'travel_category',
+                'field' => 'slug',
+                'terms' => explode(',', $atts['category']),
+            );
+        }
+
+        if (!empty($atts['destination'])) {
+            $tax_query[] = array(
+                'taxonomy' => 'travel_destination',
+                'field' => 'slug',
+                'terms' => explode(',', $atts['destination']),
+            );
+        }
+
+        if (!empty($atts['purpose'])) {
+            $tax_query[] = array(
+                'taxonomy' => 'travel_purpose',
+                'field' => 'slug',
+                'terms' => explode(',', $atts['purpose']),
+            );
+        }
+
+        if (count($tax_query) > 0) {
+            $tax_query['relation'] = 'AND';
+            $args['tax_query'] = $tax_query;
+        }
+
+        $query = new WP_Query($args);
+
+        ob_start();
+        ?>
+        <div class="travelcurator-shortcode-grid columns-<?php echo esc_attr($atts['columns']); ?>">
+            <?php if ($query->have_posts()) : ?>
+                <?php while ($query->have_posts()) : $query->the_post(); ?>
+                    <?php $this->render_package_card(get_the_ID()); ?>
+                <?php endwhile; ?>
+                <?php wp_reset_postdata(); ?>
+            <?php else : ?>
+                <div class="no-packages-found">
+                    <p><?php _e('Nenhum pacote encontrado.', 'travelcurator'); ?></p>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <style>
+        .travelcurator-shortcode-grid {
+            display: grid;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .travelcurator-shortcode-grid.columns-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .travelcurator-shortcode-grid.columns-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .travelcurator-shortcode-grid.columns-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        @media (max-width: 768px) {
+            .travelcurator-shortcode-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        </style>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Shortcode: Pacote Específico
+     * Uso: [travelcurator_package id="123"]
+     */
+    public function shortcode_single_package($atts) {
+        $atts = shortcode_atts(array(
+            'id' => 0,
+        ), $atts, 'travelcurator_package');
+
+        if (empty($atts['id'])) {
+            return '<p>' . __('Por favor, especifique o ID do pacote.', 'travelcurator') . '</p>';
+        }
+
+        $package = get_post($atts['id']);
+        if (!$package || $package->post_type !== 'travel_package') {
+            return '<p>' . __('Pacote não encontrado.', 'travelcurator') . '</p>';
+        }
+
+        ob_start();
+        ?>
+        <div class="travelcurator-single-package-shortcode">
+            <?php $this->render_package_card($atts['id']); ?>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Shortcode: Filtro de Busca
+     * Uso: [travelcurator_search]
+     */
+    public function shortcode_search_filter($atts) {
+        $atts = shortcode_atts(array(
+            'show_category' => 'yes',
+            'show_destination' => 'yes',
+            'show_price' => 'yes',
+        ), $atts, 'travelcurator_search');
+
+        ob_start();
+        ?>
+        <div class="travelcurator-search-filter">
+            <form method="GET" action="<?php echo esc_url(get_post_type_archive_link('travel_package')); ?>" class="tc-search-form">
+
+                <div class="search-field">
+                    <label for="tc_search"><?php _e('Buscar:', 'travelcurator'); ?></label>
+                    <input type="text" id="tc_search" name="s" placeholder="<?php esc_attr_e('Buscar pacotes...', 'travelcurator'); ?>" value="<?php echo esc_attr(get_search_query()); ?>" />
+                </div>
+
+                <?php if ($atts['show_category'] === 'yes') : ?>
+                <div class="search-field">
+                    <label for="tc_category"><?php _e('Categoria:', 'travelcurator'); ?></label>
+                    <select id="tc_category" name="category">
+                        <option value=""><?php _e('Todas as categorias', 'travelcurator'); ?></option>
+                        <?php
+                        $categories = get_terms(array('taxonomy' => 'travel_category', 'hide_empty' => true));
+                        foreach ($categories as $category) {
+                            $selected = (isset($_GET['category']) && $_GET['category'] === $category->slug) ? 'selected' : '';
+                            echo '<option value="' . esc_attr($category->slug) . '" ' . $selected . '>' . esc_html($category->name) . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                <?php endif; ?>
+
+                <?php if ($atts['show_destination'] === 'yes') : ?>
+                <div class="search-field">
+                    <label for="tc_destination"><?php _e('Destino:', 'travelcurator'); ?></label>
+                    <select id="tc_destination" name="destination">
+                        <option value=""><?php _e('Todos os destinos', 'travelcurator'); ?></option>
+                        <?php
+                        $destinations = get_terms(array('taxonomy' => 'travel_destination', 'hide_empty' => true));
+                        foreach ($destinations as $destination) {
+                            $selected = (isset($_GET['destination']) && $_GET['destination'] === $destination->slug) ? 'selected' : '';
+                            echo '<option value="' . esc_attr($destination->slug) . '" ' . $selected . '>' . esc_html($destination->name) . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                <?php endif; ?>
+
+                <?php if ($atts['show_price'] === 'yes') : ?>
+                <div class="search-field">
+                    <label for="tc_min_price"><?php _e('Preço mínimo:', 'travelcurator'); ?></label>
+                    <input type="number" id="tc_min_price" name="min_price" placeholder="R$ 0" value="<?php echo isset($_GET['min_price']) ? esc_attr($_GET['min_price']) : ''; ?>" />
+                </div>
+                <div class="search-field">
+                    <label for="tc_max_price"><?php _e('Preço máximo:', 'travelcurator'); ?></label>
+                    <input type="number" id="tc_max_price" name="max_price" placeholder="R$ 10000" value="<?php echo isset($_GET['max_price']) ? esc_attr($_GET['max_price']) : ''; ?>" />
+                </div>
+                <?php endif; ?>
+
+                <div class="search-field search-submit">
+                    <button type="submit" class="tc-btn tc-btn-primary">
+                        <?php _e('Buscar Pacotes', 'travelcurator'); ?>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <style>
+        .travelcurator-search-filter {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+        .tc-search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            align-items: end;
+        }
+        .search-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        .search-field input,
+        .search-field select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .tc-btn-primary {
+            width: 100%;
+            padding: 12px 25px;
+            background: #F2B705;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .tc-btn-primary:hover {
+            background: #d9a505;
+            transform: translateY(-2px);
+        }
+        </style>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Shortcode: Formulário de Lead
+     * Uso: [travelcurator_lead_form package_id="123"]
+     */
+    public function shortcode_lead_form($atts) {
+        $atts = shortcode_atts(array(
+            'package_id' => 0,
+            'title' => __('Tenho Interesse!', 'travelcurator'),
+        ), $atts, 'travelcurator_lead_form');
+
+        $package_id = intval($atts['package_id']);
+
+        ob_start();
+        ?>
+        <div class="travelcurator-lead-form-wrapper">
+            <h3><?php echo esc_html($atts['title']); ?></h3>
+
+            <form class="tc-lead-form" data-package-id="<?php echo esc_attr($package_id); ?>">
+                <div class="form-group">
+                    <label for="tc_name"><?php _e('Nome completo *', 'travelcurator'); ?></label>
+                    <input type="text" id="tc_name" name="name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="tc_email"><?php _e('E-mail *', 'travelcurator'); ?></label>
+                    <input type="email" id="tc_email" name="email" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="tc_phone"><?php _e('Telefone', 'travelcurator'); ?></label>
+                    <input type="tel" id="tc_phone" name="phone" />
+                </div>
+
+                <div class="form-group">
+                    <label for="tc_message"><?php _e('Mensagem', 'travelcurator'); ?></label>
+                    <textarea id="tc_message" name="message" rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="tc-btn tc-btn-primary">
+                        <?php _e('Enviar Interesse', 'travelcurator'); ?>
+                    </button>
+                </div>
+
+                <div class="form-message" style="display: none;"></div>
+            </form>
+        </div>
+
+        <style>
+        .travelcurator-lead-form-wrapper {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .tc-lead-form .form-group {
+            margin-bottom: 20px;
+        }
+        .tc-lead-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        .tc-lead-form input,
+        .tc-lead-form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .form-message {
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .form-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .form-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        </style>
+
+        <script>
+        jQuery(document).ready(function($) {
+            $('.tc-lead-form').on('submit', function(e) {
+                e.preventDefault();
+
+                var form = $(this);
+                var submitBtn = form.find('button[type="submit"]');
+                var messageDiv = form.find('.form-message');
+
+                submitBtn.prop('disabled', true).text('<?php _e('Enviando...', 'travelcurator'); ?>');
+
+                $.ajax({
+                    url: travelcurator_public.ajax_url,
+                    type: 'POST',
+                    data: {
+                        action: 'travelcurator_submit_interest',
+                        nonce: travelcurator_public.nonce,
+                        package_id: form.data('package-id'),
+                        name: form.find('[name="name"]').val(),
+                        email: form.find('[name="email"]').val(),
+                        phone: form.find('[name="phone"]').val(),
+                        message: form.find('[name="message"]').val()
+                    },
+                    success: function(response) {
+                        var data = JSON.parse(response);
+
+                        messageDiv.removeClass('success error').show();
+
+                        if (data.success) {
+                            messageDiv.addClass('success').text(data.data.message);
+                            form[0].reset();
+                        } else {
+                            messageDiv.addClass('error').text(data.data.message);
+                        }
+
+                        submitBtn.prop('disabled', false).text('<?php _e('Enviar Interesse', 'travelcurator'); ?>');
+                    },
+                    error: function() {
+                        messageDiv.removeClass('success error').addClass('error').show()
+                            .text('<?php _e('Erro ao enviar. Tente novamente.', 'travelcurator'); ?>');
+                        submitBtn.prop('disabled', false).text('<?php _e('Enviar Interesse', 'travelcurator'); ?>');
+                    }
+                });
+            });
+        });
+        </script>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Shortcode: Pacotes em Destaque
+     * Uso: [travelcurator_featured limit="4"]
+     */
+    public function shortcode_featured_packages($atts) {
+        $atts = shortcode_atts(array(
+            'limit' => 4,
+            'columns' => 2,
+        ), $atts, 'travelcurator_featured');
+
+        $args = array(
+            'post_type' => 'travel_package',
+            'posts_per_page' => intval($atts['limit']),
+            'post_status' => 'publish',
+            'meta_query' => array(
+                'relation' => 'AND',
+                array(
+                    'key' => '_travelcurator_status',
+                    'value' => 'active',
+                    'compare' => '='
+                ),
+                array(
+                    'key' => '_travelcurator_featured',
+                    'value' => 'yes',
+                    'compare' => '='
+                )
+            )
+        );
+
+        $query = new WP_Query($args);
+
+        ob_start();
+        ?>
+        <div class="travelcurator-featured-packages columns-<?php echo esc_attr($atts['columns']); ?>">
+            <h2 class="featured-title"><?php _e('Pacotes em Destaque', 'travelcurator'); ?></h2>
+
+            <div class="featured-grid">
+                <?php if ($query->have_posts()) : ?>
+                    <?php while ($query->have_posts()) : $query->the_post(); ?>
+                        <?php $this->render_package_card(get_the_ID()); ?>
+                    <?php endwhile; ?>
+                    <?php wp_reset_postdata(); ?>
+                <?php else : ?>
+                    <div class="no-featured-packages">
+                        <p><?php _e('Nenhum pacote em destaque no momento.', 'travelcurator'); ?></p>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <style>
+        .travelcurator-featured-packages {
+            margin: 40px 0;
+        }
+        .featured-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+            color: #1A3A5F;
+        }
+        .featured-grid {
+            display: grid;
+            gap: 30px;
+        }
+        .travelcurator-featured-packages.columns-2 .featured-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .travelcurator-featured-packages.columns-3 .featured-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .travelcurator-featured-packages.columns-4 .featured-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        @media (max-width: 768px) {
+            .featured-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        </style>
+        <?php
+        return ob_get_clean();
     }
 
     /**
@@ -326,7 +812,7 @@ class TravelCurator_Public {
         }
 
         // Taxonomy filters
-        $taxonomies = array('travel_category', 'emotional_purpose', 'travel_destination');
+        $taxonomies = array('travel_category', 'travel_purpose', 'travel_destination');
         foreach ($taxonomies as $taxonomy) {
             if (isset($filters[$taxonomy]) && !empty($filters[$taxonomy])) {
                 $terms = is_array($filters[$taxonomy]) ? $filters[$taxonomy] : array($filters[$taxonomy]);
@@ -473,7 +959,7 @@ class TravelCurator_Public {
         $highlights = get_post_meta($package_id, 'package_highlights', true) ?: array();
         
         // Get taxonomies
-        $purposes = get_the_terms($package_id, 'emotional_purpose');
+        $purposes = get_the_terms($package_id, 'travel_purpose');
         $destinations = get_the_terms($package_id, 'travel_destination');
         $categories = get_the_terms($package_id, 'travel_category');
         
@@ -565,10 +1051,14 @@ class TravelCurator_Public {
                 <?php endif; ?>
                 
                 <div class="tc-package-footer">
-                    <?php if ($price && $price_display): ?>
+                    <?php if ($price && $price > 0 && $price_display): ?>
                     <div class="tc-package-price">
                         <span class="currency"><?php echo esc_html($currency_symbol); ?></span><?php echo esc_html(number_format($price, 2, ',', '.')); ?>
                         <small class="period"><?php _e('por pessoa', 'travelcurator'); ?></small>
+                    </div>
+                    <?php else: ?>
+                    <div class="tc-package-price">
+                        <span style="font-size: 16px; font-weight: 600;"><?php _e('Sob Consulta', 'travelcurator'); ?></span>
                     </div>
                     <?php endif; ?>
                     

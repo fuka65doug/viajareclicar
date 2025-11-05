@@ -45,8 +45,8 @@ class TravelCurator_Elementor {
         }
 
         // Load widget base files
-        $widgets_path = plugin_dir_path(dirname(__FILE__)) . 'includes/elementor/';
-        
+        $widgets_path = TRAVELCURATOR_PLUGIN_PATH . 'includes/elementor/';
+
         // Load main widgets class
         if (file_exists($widgets_path . 'class-travelcurator-elementor-widgets.php')) {
             require_once $widgets_path . 'class-travelcurator-elementor-widgets.php';
@@ -89,23 +89,45 @@ class TravelCurator_Elementor {
      * Enqueue styles for Elementor frontend
      */
     public function enqueue_styles() {
+        // Enqueue new design styles
+        wp_enqueue_style(
+            'travelcurator-elementor-widgets-new',
+            TRAVELCURATOR_PLUGIN_URL . 'includes/elementor/assets/widgets-new.css',
+            array(),
+            TRAVELCURATOR_VERSION
+        );
+
+        // Keep old styles for backward compatibility (can be removed later)
         wp_enqueue_style(
             'travelcurator-elementor-widgets',
-            plugin_dir_url(dirname(__FILE__)) . 'includes/elementor/assets/widgets.css',
+            TRAVELCURATOR_PLUGIN_URL . 'includes/elementor/assets/widgets.css',
             array(),
             TRAVELCURATOR_VERSION
         );
     }
+
     /**
      * Enqueue scripts for Elementor frontend
      */
     public function enqueue_scripts() {
+        // Enqueue new design scripts
         wp_enqueue_script(
-            'travelcurator-elementor-widgets',
-            plugin_dir_url(dirname(__FILE__)) . 'includes/elementor/assets/widgets.js',
+            'travelcurator-elementor-widgets-new',
+            TRAVELCURATOR_PLUGIN_URL . 'includes/elementor/assets/widgets-new.js',
             array('jquery'),
             TRAVELCURATOR_VERSION,
             true
+        );
+
+        // Pass data to JavaScript
+        wp_localize_script(
+            'travelcurator-elementor-widgets-new',
+            'travelcuratorData',
+            array(
+                'whatsappNumber' => get_option('travelcurator_whatsapp_number', ''),
+                'ajaxUrl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('travelcurator_nonce')
+            )
         );
     }
 }

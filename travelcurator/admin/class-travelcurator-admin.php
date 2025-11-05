@@ -88,23 +88,9 @@ class TravelCurator_Admin {
 			array($this, 'display_plugin_admin_dashboard')
 		);
 
-		// Travel Packages submenu
-		add_submenu_page(
-			'travelcurator',
-			__('Todos os Pacotes', 'travelcurator'),
-			__('Todos os Pacotes', 'travelcurator'),
-			'edit_posts',
-			'edit.php?post_type=travel_package'
-		);
+		// Note: "Todos os Pacotes" and "Adicionar Pacote" are auto-created by WordPress
+		// because the post type has 'show_in_menu' => 'travelcurator'
 
-		// Add New Package submenu
-		add_submenu_page(
-			'travelcurator',
-			__('Adicionar Pacote', 'travelcurator'),
-			__('Adicionar Pacote', 'travelcurator'),
-			'edit_posts',
-			'post-new.php?post_type=travel_package'
-		);
 		// Taxonomies submenus
 		add_submenu_page(
 			'travelcurator',

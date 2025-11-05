@@ -260,7 +260,7 @@ class TravelCurator_API {
             ),
             'taxonomies' => array(
                 'categories' => wp_get_post_terms($post->ID, 'travel_category'),
-                'purposes' => wp_get_post_terms($post->ID, 'emotional_purpose'),
+                'purposes' => wp_get_post_terms($post->ID, 'travel_purpose'),
                 'destinations' => wp_get_post_terms($post->ID, 'travel_destination'),
                 'facilities' => wp_get_post_terms($post->ID, 'travel_facilities')
             )
@@ -309,7 +309,7 @@ class TravelCurator_API {
             'max_price' => array('description' => 'Maximum price', 'type' => 'number'),
             'duration_days' => array('description' => 'Duration in days', 'type' => 'integer'),
             'travel_category' => array('description' => 'Category IDs', 'type' => 'array'),
-            'emotional_purpose' => array('description' => 'Purpose IDs', 'type' => 'array'),
+            'travel_purpose' => array('description' => 'Purpose IDs', 'type' => 'array'),
             'travel_destination' => array('description' => 'Destination IDs', 'type' => 'array'),
             'search' => array('description' => 'Search term', 'type' => 'string')
         );

@@ -16,7 +16,7 @@ class TravelCurator_Taxonomies {
      */
     public function register_taxonomies() {
         $this->register_travel_category_taxonomy();
-        $this->register_emotional_purpose_taxonomy();
+        $this->register_travel_purpose_taxonomy();
         $this->register_travel_destination_taxonomy();
         $this->register_travel_facilities_taxonomy();
     }
@@ -57,6 +57,7 @@ class TravelCurator_Taxonomies {
             'show_in_nav_menus'          => true,
             'show_tagcloud'              => true,
             'show_in_rest'               => true,
+            'show_in_menu'               => 'travelcurator',
             'rewrite'                    => array(
                 'slug'                       => 'categoria-viagem',
                 'with_front'                 => false,
@@ -68,9 +69,9 @@ class TravelCurator_Taxonomies {
     }
 
     /**
-     * Register the emotional_purpose taxonomy.
+     * Register the travel_purpose taxonomy.
      */
-    private function register_emotional_purpose_taxonomy() {
+    private function register_travel_purpose_taxonomy() {
         $labels = array(
             'name'                       => _x('Propósitos Emocionais', 'Taxonomy General Name', 'travelcurator'),
             'singular_name'              => _x('Propósito Emocional', 'Taxonomy Singular Name', 'travelcurator'),
@@ -103,6 +104,7 @@ class TravelCurator_Taxonomies {
             'show_in_nav_menus'          => true,
             'show_tagcloud'              => true,
             'show_in_rest'               => true,
+            'show_in_menu'               => 'travelcurator',
             'rewrite'                    => array(
                 'slug'                       => 'proposito',
                 'with_front'                 => false,
@@ -110,7 +112,7 @@ class TravelCurator_Taxonomies {
             'query_var'                  => true,
         );
 
-        register_taxonomy('emotional_purpose', array('travel_package'), $args);
+        register_taxonomy('travel_purpose', array('travel_package'), $args);
     }
 
     /**
@@ -149,6 +151,7 @@ class TravelCurator_Taxonomies {
             'show_in_nav_menus'          => true,
             'show_tagcloud'              => true,
             'show_in_rest'               => true,
+            'show_in_menu'               => 'travelcurator',
             'rewrite'                    => array(
                 'slug'                       => 'destino',
                 'with_front'                 => false,
@@ -212,7 +215,7 @@ class TravelCurator_Taxonomies {
         }
 
         $this->create_travel_categories();
-        $this->create_emotional_purposes();
+        $this->create_travel_purposes();
         $this->create_default_facilities();
         $this->create_sample_destinations();
 
@@ -246,7 +249,7 @@ class TravelCurator_Taxonomies {
     /**
      * Create emotional purposes.
      */
-    private function create_emotional_purposes() {
+    private function create_travel_purposes() {
         $purposes = array(
             'Reconexão' => array(
                 'description' => 'Para redescobrir vínculos importantes',
@@ -271,8 +274,8 @@ class TravelCurator_Taxonomies {
         );
         
         foreach ($purposes as $name => $data) {
-            if (!term_exists($name, 'emotional_purpose')) {
-                $term = wp_insert_term($name, 'emotional_purpose', array(
+            if (!term_exists($name, 'travel_purpose')) {
+                $term = wp_insert_term($name, 'travel_purpose', array(
                     'description' => $data['description']
                 ));
                 
@@ -361,11 +364,11 @@ class TravelCurator_Taxonomies {
      * Add custom fields to taxonomy terms.
      */
     public function add_taxonomy_custom_fields() {
-        // Add color field to emotional_purpose taxonomy
-        add_action('emotional_purpose_add_form_fields', array($this, 'add_emotional_purpose_color_field'));
-        add_action('emotional_purpose_edit_form_fields', array($this, 'edit_emotional_purpose_color_field'), 10, 2);
-        add_action('created_emotional_purpose', array($this, 'save_emotional_purpose_color_field'), 10, 2);
-        add_action('edited_emotional_purpose', array($this, 'save_emotional_purpose_color_field'), 10, 2);
+        // Add color field to travel_purpose taxonomy
+        add_action('travel_purpose_add_form_fields', array($this, 'add_travel_purpose_color_field'));
+        add_action('travel_purpose_edit_form_fields', array($this, 'edit_travel_purpose_color_field'), 10, 2);
+        add_action('created_travel_purpose', array($this, 'save_travel_purpose_color_field'), 10, 2);
+        add_action('edited_travel_purpose', array($this, 'save_travel_purpose_color_field'), 10, 2);
 
         // Add image field to travel_destination taxonomy
         add_action('travel_destination_add_form_fields', array($this, 'add_destination_image_field'));
@@ -383,7 +386,7 @@ class TravelCurator_Taxonomies {
     /**
      * Add color field to emotional purpose add form.
      */
-    public function add_emotional_purpose_color_field() {
+    public function add_travel_purpose_color_field() {
         ?>
         <div class="form-field">
             <label for="purpose_color"><?php _e('Cor do Propósito', 'travelcurator'); ?></label>
@@ -396,7 +399,7 @@ class TravelCurator_Taxonomies {
     /**
      * Edit color field for emotional purpose.
      */
-    public function edit_emotional_purpose_color_field($term, $taxonomy) {
+    public function edit_travel_purpose_color_field($term, $taxonomy) {
         $color = get_term_meta($term->term_id, 'purpose_color', true);
         $color = $color ? $color : '#1A3A5F';
         ?>
@@ -413,7 +416,7 @@ class TravelCurator_Taxonomies {
     /**
      * Save emotional purpose color field.
      */
-    public function save_emotional_purpose_color_field($term_id, $taxonomy) {
+    public function save_travel_purpose_color_field($term_id, $taxonomy) {
         if (isset($_POST['purpose_color']) && !empty($_POST['purpose_color'])) {
             update_term_meta($term_id, 'purpose_color', sanitize_hex_color($_POST['purpose_color']));
         }
@@ -591,9 +594,9 @@ class TravelCurator_Taxonomies {
      * Add custom columns to taxonomy list tables.
      */
     public function add_custom_taxonomy_columns() {
-        // Add color column to emotional_purpose
-        add_filter('manage_edit-emotional_purpose_columns', array($this, 'add_purpose_color_column'));
-        add_filter('manage_emotional_purpose_custom_column', array($this, 'display_purpose_color_column'), 10, 3);
+        // Add color column to travel_purpose
+        add_filter('manage_edit-travel_purpose_columns', array($this, 'add_purpose_color_column'));
+        add_filter('manage_travel_purpose_custom_column', array($this, 'display_purpose_color_column'), 10, 3);
 
         // Add image column to travel_destination
         add_filter('manage_edit-travel_destination_columns', array($this, 'add_destination_image_column'));

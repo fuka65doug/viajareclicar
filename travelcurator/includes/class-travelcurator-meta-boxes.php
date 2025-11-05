@@ -26,6 +26,24 @@ class TravelCurator_Meta_Boxes {
      */
     public function add_meta_boxes() {
         add_meta_box(
+            'travelcurator_package_status',
+            __('Status do Pacote', 'travelcurator'),
+            array($this, 'package_status_callback'),
+            'travel_package',
+            'side',
+            'high'
+        );
+
+        add_meta_box(
+            'travelcurator_package_difficulty',
+            __('Nível de Dificuldade', 'travelcurator'),
+            array($this, 'package_difficulty_callback'),
+            'travel_package',
+            'side',
+            'high'
+        );
+
+        add_meta_box(
             'travelcurator_package_details',
             __('Detalhes do Pacote', 'travelcurator'),
             array($this, 'package_details_callback'),
@@ -40,7 +58,7 @@ class TravelCurator_Meta_Boxes {
             array($this, 'package_pricing_callback'),
             'travel_package',
             'side',
-            'high'
+            'default'
         );
 
         add_meta_box(
@@ -91,6 +109,132 @@ class TravelCurator_Meta_Boxes {
                 );
             }
         }
+    }
+
+    /**
+     * Package status meta box callback
+     */
+    public function package_status_callback($post) {
+        wp_nonce_field('travelcurator_package_status', 'travelcurator_package_status_nonce');
+
+        $status = get_post_meta($post->ID, '_travelcurator_status', true);
+        if (empty($status)) {
+            $status = 'draft';
+        }
+        ?>
+
+        <div class="travelcurator-status-box">
+            <p>
+                <label><strong><?php _e('Status de Publicação:', 'travelcurator'); ?></strong></label>
+            </p>
+
+            <p>
+                <label>
+                    <input type="radio" name="travelcurator_status" value="active" <?php checked($status, 'active'); ?> />
+                    <span class="status-label status-active">✓ <?php _e('Ativo', 'travelcurator'); ?></span>
+                </label>
+            </p>
+
+            <p>
+                <label>
+                    <input type="radio" name="travelcurator_status" value="inactive" <?php checked($status, 'inactive'); ?> />
+                    <span class="status-label status-inactive">○ <?php _e('Inativo', 'travelcurator'); ?></span>
+                </label>
+            </p>
+
+            <p>
+                <label>
+                    <input type="radio" name="travelcurator_status" value="draft" <?php checked($status, 'draft'); ?> />
+                    <span class="status-label status-draft">◐ <?php _e('Rascunho', 'travelcurator'); ?></span>
+                </label>
+            </p>
+
+            <p>
+                <label>
+                    <input type="radio" name="travelcurator_status" value="sold_out" <?php checked($status, 'sold_out'); ?> />
+                    <span class="status-label status-soldout">✕ <?php _e('Esgotado', 'travelcurator'); ?></span>
+                </label>
+            </p>
+
+            <p class="description">
+                <?php _e('Apenas pacotes "Ativos" serão exibidos no site.', 'travelcurator'); ?>
+            </p>
+        </div>
+
+        <style>
+        .travelcurator-status-box label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .status-label {
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        .status-active { color: #46b450; }
+        .status-inactive { color: #dc3232; }
+        .status-draft { color: #ffb900; }
+        .status-soldout { color: #826eb4; }
+        </style>
+        <?php
+    }
+
+    /**
+     * Package difficulty meta box callback
+     */
+    public function package_difficulty_callback($post) {
+        wp_nonce_field('travelcurator_package_difficulty', 'travelcurator_package_difficulty_nonce');
+
+        $difficulty = get_post_meta($post->ID, '_travelcurator_difficulty', true);
+        if (empty($difficulty)) {
+            $difficulty = 'easy';
+        }
+        ?>
+
+        <div class="travelcurator-difficulty-box">
+            <p>
+                <label><strong><?php _e('Nível de Dificuldade:', 'travelcurator'); ?></strong></label>
+            </p>
+
+            <p>
+                <label>
+                    <input type="radio" name="travelcurator_difficulty" value="easy" <?php checked($difficulty, 'easy'); ?> />
+                    <span class="difficulty-label difficulty-easy"><?php _e('Fácil', 'travelcurator'); ?></span>
+                </label>
+            </p>
+
+            <p>
+                <label>
+                    <input type="radio" name="travelcurator_difficulty" value="moderate" <?php checked($difficulty, 'moderate'); ?> />
+                    <span class="difficulty-label difficulty-moderate"><?php _e('Moderado', 'travelcurator'); ?></span>
+                </label>
+            </p>
+
+            <p>
+                <label>
+                    <input type="radio" name="travelcurator_difficulty" value="hard" <?php checked($difficulty, 'hard'); ?> />
+                    <span class="difficulty-label difficulty-hard"><?php _e('Difícil', 'travelcurator'); ?></span>
+                </label>
+            </p>
+
+            <p class="description">
+                <?php _e('Indica o nível de esforço físico necessário.', 'travelcurator'); ?>
+            </p>
+        </div>
+
+        <style>
+        .travelcurator-difficulty-box label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .difficulty-label {
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        .difficulty-easy { color: #46b450; }
+        .difficulty-moderate { color: #ffb900; }
+        .difficulty-hard { color: #dc3232; }
+        </style>
+        <?php
     }
 
     /**
@@ -580,12 +724,6 @@ class TravelCurator_Meta_Boxes {
      * Save meta boxes data
      */
     public function save_meta_boxes($post_id) {
-        // Check if our nonce is set and verify it
-        if (!isset($_POST['travelcurator_package_details_nonce']) || 
-            !wp_verify_nonce($_POST['travelcurator_package_details_nonce'], 'travelcurator_package_details')) {
-            return;
-        }
-
         // If this is an autosave, our form has not been submitted, so we don't want to do anything
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
@@ -596,6 +734,30 @@ class TravelCurator_Meta_Boxes {
             if (!current_user_can('edit_posts', $post_id)) {
                 return;
             }
+        }
+
+        // Save package status
+        if (isset($_POST['travelcurator_package_status_nonce']) &&
+            wp_verify_nonce($_POST['travelcurator_package_status_nonce'], 'travelcurator_package_status')) {
+
+            if (isset($_POST['travelcurator_status'])) {
+                update_post_meta($post_id, '_travelcurator_status', sanitize_text_field($_POST['travelcurator_status']));
+            }
+        }
+
+        // Save package difficulty
+        if (isset($_POST['travelcurator_package_difficulty_nonce']) &&
+            wp_verify_nonce($_POST['travelcurator_package_difficulty_nonce'], 'travelcurator_package_difficulty')) {
+
+            if (isset($_POST['travelcurator_difficulty'])) {
+                update_post_meta($post_id, '_travelcurator_difficulty', sanitize_text_field($_POST['travelcurator_difficulty']));
+            }
+        }
+
+        // Check if package details nonce is set
+        if (!isset($_POST['travelcurator_package_details_nonce']) ||
+            !wp_verify_nonce($_POST['travelcurator_package_details_nonce'], 'travelcurator_package_details')) {
+            return;
         }
 
         // Save package details
