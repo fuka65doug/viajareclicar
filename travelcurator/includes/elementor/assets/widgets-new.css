@@ -719,3 +719,111 @@
     box-shadow: 0 8px 35px rgba(37, 211, 102, 0.4);
     color: #fff;
 }
+
+/* === PAGINATION STYLES === */
+.packages-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    padding: 40px 20px;
+    border-top: 2px solid var(--wp--preset--color--custom-border, #e8e8e8);
+}
+
+.packages-pagination .page-numbers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 45px;
+    height: 45px;
+    margin: 0 5px;
+    padding: 0 16px;
+    background: #fff;
+    border: 2px solid var(--wp--preset--color--custom-border, #e8e8e8);
+    border-radius: 8px;
+    color: var(--wp--preset--color--primary, var(--wp--preset--color--contrast, #1A3A5F));
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.packages-pagination .page-numbers:hover {
+    background: var(--wp--preset--color--primary, var(--wp--preset--color--contrast, #1A3A5F));
+    border-color: var(--wp--preset--color--primary, var(--wp--preset--color--contrast, #1A3A5F));
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(26, 58, 95, 0.2);
+}
+
+.packages-pagination .page-numbers.current {
+    background: var(--wp--preset--color--accent, var(--wp--preset--color--tertiary, #D4B254));
+    border-color: var(--wp--preset--color--accent, var(--wp--preset--color--tertiary, #D4B254));
+    color: #fff;
+    box-shadow: 0 5px 20px rgba(212, 178, 84, 0.3);
+    pointer-events: none;
+}
+
+.packages-pagination .page-numbers.dots {
+    border: none;
+    background: transparent;
+    color: var(--wp--preset--color--foreground, var(--wp--preset--color--text, #5f6368));
+    pointer-events: none;
+}
+
+.packages-pagination .page-numbers.prev,
+.packages-pagination .page-numbers.next {
+    min-width: auto;
+    padding: 0 20px;
+    font-weight: 700;
+}
+
+.packages-pagination .page-numbers.prev:hover,
+.packages-pagination .page-numbers.next:hover {
+    background: var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #C85F4D));
+    border-color: var(--wp--preset--color--secondary, var(--wp--preset--color--contrast-2, #C85F4D));
+}
+
+/* Pagination loading state */
+.packages-pagination.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Pagination responsive */
+@media (max-width: 768px) {
+    .packages-pagination {
+        margin-top: 40px;
+        padding: 30px 15px;
+    }
+
+    .packages-pagination .page-numbers {
+        min-width: 40px;
+        height: 40px;
+        padding: 0 12px;
+        font-size: 14px;
+        margin: 0 3px;
+    }
+
+    .packages-pagination .page-numbers.prev,
+    .packages-pagination .page-numbers.next {
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .packages-pagination .page-numbers {
+        min-width: 35px;
+        height: 35px;
+        padding: 0 10px;
+        font-size: 13px;
+        margin: 0 2px;
+    }
+
+    .packages-pagination .page-numbers.prev,
+    .packages-pagination .page-numbers.next {
+        font-size: 12px;
+        padding: 0 12px;
+    }
+}

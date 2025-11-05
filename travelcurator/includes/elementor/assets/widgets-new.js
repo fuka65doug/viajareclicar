@@ -17,9 +17,35 @@
             // Filter packages
             if (filter === 'all') {
                 $('.package-card').fadeIn(300);
+                $('.no-packages').hide();
             } else {
                 $('.package-card').hide();
-                $('.package-card[data-purpose="' + filter + '"]').fadeIn(300);
+                var $filteredPackages = $('.package-card[data-purpose="' + filter + '"]');
+
+                if ($filteredPackages.length > 0) {
+                    $filteredPackages.fadeIn(300);
+                    $('.no-packages').hide();
+                } else {
+                    // Show "no results" message
+                    if ($('.no-packages').length === 0) {
+                        var whatsappNumber = typeof travelcuratorData !== 'undefined' ? travelcuratorData.whatsappNumber : '';
+                        var whatsappMessage = encodeURIComponent('Olá! Gostaria de uma experiência personalizada. Podem me ajudar?');
+
+                        $('.packages-grid').append(
+                            '<div class="no-packages">' +
+                                '<div class="no-packages-icon">😔</div>' +
+                                '<h3 class="no-packages-title">Nenhuma experiência encontrada</h3>' +
+                                '<p class="no-packages-text">Não encontramos pacotes para este propósito emocional no momento.</p>' +
+                                '<p class="no-packages-cta">Mas podemos criar uma experiência personalizada para você!</p>' +
+                                '<a href="https://wa.me/' + whatsappNumber + '?text=' + whatsappMessage + '" class="btn-whatsapp-cta" target="_blank" rel="noopener">' +
+                                    '💬 Fale Conosco no WhatsApp' +
+                                '</a>' +
+                            '</div>'
+                        );
+                    } else {
+                        $('.no-packages').fadeIn(300);
+                    }
+                }
             }
         }
 
@@ -171,6 +197,99 @@
         return icons[purpose] || '✨';
     }
 
+    // AJAX Pagination functionality
+    function initAjaxPagination() {
+        $(document).on('click', '.packages-pagination .page-numbers', function(e) {
+            // Skip if current page or dots
+            if ($(this).hasClass('current') || $(this).hasClass('dots')) {
+                return;
+            }
+
+            e.preventDefault();
+
+            var $link = $(this);
+            var url = $link.attr('href');
+
+            // Extract page number from URL
+            var pageMatch = url.match(/[?&]paged=(\d+)/);
+            var page = pageMatch ? pageMatch[1] : 1;
+
+            // Get current filter
+            var currentFilter = $('.tc-purpose-pill.active').data('purpose') || 'all';
+
+            // Show loading state
+            $('.packages-pagination').addClass('loading');
+            $('.packages-grid').css('opacity', '0.5');
+
+            // Scroll to grid top
+            $('html, body').animate({
+                scrollTop: $('.packages-grid').offset().top - 100
+            }, 400);
+
+            // Build AJAX URL
+            var ajaxUrl = window.location.href.split('?')[0];
+            ajaxUrl += '?paged=' + page;
+            if (currentFilter !== 'all') {
+                ajaxUrl += '&purpose=' + currentFilter;
+            }
+
+            // Perform AJAX request
+            $.ajax({
+                url: ajaxUrl,
+                type: 'GET',
+                dataType: 'html',
+                success: function(response) {
+                    // Extract packages grid content
+                    var $response = $(response);
+                    var $newGrid = $response.find('.packages-grid');
+                    var $newPagination = $response.find('.packages-pagination');
+
+                    if ($newGrid.length) {
+                        // Replace grid content
+                        $('.packages-grid').html($newGrid.html());
+
+                        // Replace pagination
+                        if ($newPagination.length) {
+                            $('.packages-pagination').replaceWith($newPagination);
+                        } else {
+                            $('.packages-pagination').remove();
+                        }
+
+                        // Update URL without reload
+                        window.history.pushState({page: page}, '', ajaxUrl);
+
+                        // Restore visibility
+                        $('.packages-grid').css('opacity', '1');
+
+                        // Reinitialize filters if needed
+                        if (currentFilter !== 'all') {
+                            setTimeout(function() {
+                                $('.package-card').hide();
+                                $('.package-card[data-purpose="' + currentFilter + '"]').fadeIn(300);
+                            }, 100);
+                        }
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Pagination AJAX error:', error);
+                    // Fallback to normal navigation
+                    window.location.href = url;
+                },
+                complete: function() {
+                    $('.packages-pagination').removeClass('loading');
+                    $('.packages-grid').css('opacity', '1');
+                }
+            });
+        });
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.page) {
+                location.reload();
+            }
+        });
+    }
+
     // Initialize on document ready
     $(document).ready(function() {
         initPurposeFilters();
@@ -178,6 +297,7 @@
         initWhatsApp();
         initSmoothScroll();
         initLazyLoad();
+        initAjaxPagination();
     });
 
     // Initialize on Elementor frontend load
@@ -186,6 +306,7 @@
             initPurposeFilters();
             initModal();
             initWhatsApp();
+            initAjaxPagination();
         });
     });
 
