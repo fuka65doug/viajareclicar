@@ -225,8 +225,8 @@
                 return false;
             }
 
-            // Extract page number from URL
-            var pageMatch = url.match(/[?&]paged=(\d+)/);
+            // Extract page number from URL - supports both /page/X/ and ?paged=X formats
+            var pageMatch = url.match(/\/page\/(\d+)\//) || url.match(/[?&]paged=(\d+)/);
             var page = pageMatch ? pageMatch[1] : 1;
 
             // Get current filter
@@ -246,11 +246,23 @@
                 scrollTop: $grid.offset().top - 100
             }, 400);
 
-            // Build AJAX URL
-            var ajaxUrl = window.location.href.split('?')[0];
-            ajaxUrl += '?paged=' + page;
-            if (currentFilter !== 'all') {
-                ajaxUrl += '&purpose=' + currentFilter;
+            // Build AJAX URL - use same format as the link href
+            var ajaxUrl;
+            if (url.indexOf('/page/') !== -1) {
+                // Using pretty permalinks (/page/X/ format)
+                var baseUrl = window.location.href.split('?')[0].replace(/\/page\/\d+\/?/, '');
+                baseUrl = baseUrl.replace(/\/$/, ''); // Remove trailing slash
+                ajaxUrl = baseUrl + '/page/' + page + '/';
+                if (currentFilter !== 'all') {
+                    ajaxUrl += '?purpose=' + currentFilter;
+                }
+            } else {
+                // Using query strings (?paged=X format)
+                ajaxUrl = window.location.href.split('?')[0];
+                ajaxUrl += '?paged=' + page;
+                if (currentFilter !== 'all') {
+                    ajaxUrl += '&purpose=' + currentFilter;
+                }
             }
 
             // Perform AJAX request

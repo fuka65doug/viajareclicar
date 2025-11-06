@@ -961,6 +961,7 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
     }
 
     protected function render() {
+        global $wp;
         $settings = $this->get_settings_for_display();
 
         // Get WhatsApp number from settings
@@ -1204,14 +1205,43 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
             <?php if ($settings['show_pagination'] === 'yes' && $query->max_num_pages > 1) : ?>
             <div class="packages-pagination">
                 <?php
-                echo paginate_links(array(
-                    'base' => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999))),
+                // Get the current page
+                $paged = max(1, get_query_var('paged'));
+
+                // Build pagination arguments
+                $pagination_args = array(
                     'total' => $query->max_num_pages,
-                    'current' => max(1, get_query_var('paged')),
-                    'format' => '?paged=%#%',
+                    'current' => $paged,
                     'prev_text' => '← Anterior',
                     'next_text' => 'Próxima →',
-                ));
+                    'type' => 'plain',
+                    'end_size' => 1,
+                    'mid_size' => 2,
+                );
+
+                // Check if using pretty permalinks
+                if (get_option('permalink_structure')) {
+                    // Using pretty permalinks - use /page/X/ format
+                    $current_url = home_url(add_query_arg(array(), $wp->request));
+                    if (empty($wp->request)) {
+                        $current_url = home_url('/');
+                    } else {
+                        $current_url = home_url($wp->request);
+                    }
+
+                    // Remove any existing page number from URL
+                    $current_url = preg_replace('/\/page\/\d+\/?/', '/', $current_url);
+                    $current_url = trailingslashit($current_url);
+
+                    $pagination_args['base'] = $current_url . 'page/%#%/';
+                    $pagination_args['format'] = '';
+                } else {
+                    // Using query strings - use ?paged=X format
+                    $pagination_args['base'] = add_query_arg('paged', '%#%');
+                    $pagination_args['format'] = '';
+                }
+
+                echo paginate_links($pagination_args);
                 ?>
             </div>
             <?php endif; ?>
