@@ -198,17 +198,32 @@
     }
 
     // AJAX Pagination functionality
+    var paginationInitialized = false;
+
     function initAjaxPagination() {
-        $(document).on('click', '.packages-pagination .page-numbers', function(e) {
+        // Prevent multiple initializations
+        if (paginationInitialized) {
+            return;
+        }
+        paginationInitialized = true;
+
+        // Use event delegation on document to ensure it works even after AJAX loads
+        $(document).off('click.tcPagination').on('click.tcPagination', '.packages-pagination .page-numbers', function(e) {
             // Skip if current page or dots
             if ($(this).hasClass('current') || $(this).hasClass('dots')) {
-                return;
+                e.preventDefault();
+                return false;
             }
 
             e.preventDefault();
+            e.stopPropagation();
 
             var $link = $(this);
             var url = $link.attr('href');
+
+            if (!url) {
+                return false;
+            }
 
             // Extract page number from URL
             var pageMatch = url.match(/[?&]paged=(\d+)/);
@@ -217,13 +232,18 @@
             // Get current filter
             var currentFilter = $('.tc-purpose-pill.active').data('purpose') || 'all';
 
+            // Find the widget container
+            var $widget = $link.closest('.elementor-widget-travelcurator-packages-grid');
+            var $grid = $widget.find('.packages-grid');
+            var $pagination = $widget.find('.packages-pagination');
+
             // Show loading state
-            $('.packages-pagination').addClass('loading');
-            $('.packages-grid').css('opacity', '0.5');
+            $pagination.addClass('loading');
+            $grid.css('opacity', '0.5');
 
             // Scroll to grid top
             $('html, body').animate({
-                scrollTop: $('.packages-grid').offset().top - 100
+                scrollTop: $grid.offset().top - 100
             }, 400);
 
             // Build AJAX URL
@@ -239,36 +259,48 @@
                 type: 'GET',
                 dataType: 'html',
                 success: function(response) {
-                    // Extract packages grid content
-                    var $response = $(response);
-                    var $newGrid = $response.find('.packages-grid');
-                    var $newPagination = $response.find('.packages-pagination');
+                    // Create a temporary container to parse the response
+                    var $tempContainer = $('<div>').html(response);
 
-                    if ($newGrid.length) {
-                        // Replace grid content
-                        $('.packages-grid').html($newGrid.html());
+                    // Find the widget in the response
+                    var $responseWidget = $tempContainer.find('.elementor-widget-travelcurator-packages-grid').first();
 
-                        // Replace pagination
-                        if ($newPagination.length) {
-                            $('.packages-pagination').replaceWith($newPagination);
-                        } else {
-                            $('.packages-pagination').remove();
-                        }
+                    if ($responseWidget.length) {
+                        var $newGrid = $responseWidget.find('.packages-grid').first();
+                        var $newPagination = $responseWidget.find('.packages-pagination').first();
 
-                        // Update URL without reload
-                        window.history.pushState({page: page}, '', ajaxUrl);
+                        if ($newGrid.length) {
+                            // Replace grid content
+                            $grid.html($newGrid.html());
 
-                        // Restore visibility
-                        $('.packages-grid').css('opacity', '1');
+                            // Replace pagination
+                            if ($newPagination.length) {
+                                $pagination.replaceWith($newPagination.clone());
+                            } else {
+                                $pagination.remove();
+                            }
 
-                        // Reinitialize filters if needed
-                        if (currentFilter !== 'all') {
-                            setTimeout(function() {
-                                $('.package-card').hide();
-                                $('.package-card[data-purpose="' + currentFilter + '"]').fadeIn(300);
-                            }, 100);
+                            // Update URL without reload
+                            window.history.pushState({page: page}, '', ajaxUrl);
+
+                            // Restore visibility
+                            $grid.css('opacity', '1');
+
+                            // Reinitialize modal for new content
+                            initModal();
+
+                            // Reinitialize filters if needed
+                            if (currentFilter !== 'all') {
+                                setTimeout(function() {
+                                    $grid.find('.package-card').hide();
+                                    $grid.find('.package-card[data-purpose="' + currentFilter + '"]').fadeIn(300);
+                                }, 100);
+                            }
                         }
                     }
+
+                    // Clean up
+                    $tempContainer.remove();
                 },
                 error: function(xhr, status, error) {
                     console.error('Pagination AJAX error:', error);
@@ -276,14 +308,20 @@
                     window.location.href = url;
                 },
                 complete: function() {
-                    $('.packages-pagination').removeClass('loading');
-                    $('.packages-grid').css('opacity', '1');
+                    // Find pagination again in case it was replaced
+                    var $currentPagination = $widget.find('.packages-pagination');
+                    if ($currentPagination.length) {
+                        $currentPagination.removeClass('loading');
+                    }
+                    $grid.css('opacity', '1');
                 }
             });
+
+            return false;
         });
 
         // Handle browser back/forward buttons
-        window.addEventListener('popstate', function(event) {
+        $(window).off('popstate.tcPagination').on('popstate.tcPagination', function(event) {
             if (event.state && event.state.page) {
                 location.reload();
             }
