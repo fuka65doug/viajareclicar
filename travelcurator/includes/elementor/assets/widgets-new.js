@@ -198,30 +198,26 @@
     }
 
     // AJAX Pagination functionality
-    var paginationInitialized = false;
-
     function initAjaxPagination() {
-        // Prevent multiple initializations
-        if (paginationInitialized) {
-            return;
-        }
-        paginationInitialized = true;
+        // Remove any existing handlers first to prevent duplicates
+        $(document).off('click.tcPagination');
 
-        // Use event delegation on document to ensure it works even after AJAX loads
-        $(document).off('click.tcPagination').on('click.tcPagination', '.packages-pagination .page-numbers', function(e) {
+        // Use event delegation with immediate preventDefault
+        $(document).on('click.tcPagination', '.packages-pagination a.page-numbers', function(e) {
+            // Prevent default immediately
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            var $link = $(this);
+
             // Skip if current page or dots
-            if ($(this).hasClass('current') || $(this).hasClass('dots')) {
-                e.preventDefault();
+            if ($link.hasClass('current') || $link.hasClass('dots')) {
                 return false;
             }
 
-            e.preventDefault();
-            e.stopPropagation();
-
-            var $link = $(this);
             var url = $link.attr('href');
 
-            if (!url) {
+            if (!url || url === '#') {
                 return false;
             }
 
@@ -234,8 +230,19 @@
 
             // Find the widget container
             var $widget = $link.closest('.elementor-widget-travelcurator-packages-grid');
+            if (!$widget.length) {
+                // Fallback: if not in Elementor widget, find by class
+                $widget = $link.closest('.travelcurator-packages-grid').parent();
+            }
+
             var $grid = $widget.find('.packages-grid');
             var $pagination = $widget.find('.packages-pagination');
+
+            if (!$grid.length) {
+                console.warn('Grid not found, falling back to page navigation');
+                window.location.href = url;
+                return false;
+            }
 
             // Show loading state
             $pagination.addClass('loading');
@@ -277,6 +284,11 @@
                     // Find the widget in the response
                     var $responseWidget = $tempContainer.find('.elementor-widget-travelcurator-packages-grid').first();
 
+                    if (!$responseWidget.length) {
+                        // Fallback: try to find by alternate class
+                        $responseWidget = $tempContainer.find('.travelcurator-packages-grid').first().parent();
+                    }
+
                     if ($responseWidget.length) {
                         var $newGrid = $responseWidget.find('.packages-grid').first();
                         var $newPagination = $responseWidget.find('.packages-pagination').first();
@@ -293,7 +305,9 @@
                             }
 
                             // Update URL without reload
-                            window.history.pushState({page: page}, '', ajaxUrl);
+                            if (window.history && window.history.pushState) {
+                                window.history.pushState({page: page}, '', ajaxUrl);
+                            }
 
                             // Restore visibility
                             $grid.css('opacity', '1');
@@ -309,6 +323,10 @@
                                 }, 100);
                             }
                         }
+                    } else {
+                        // If can't find widget structure, fallback to page load
+                        console.warn('Could not parse AJAX response, reloading page');
+                        window.location.href = url;
                     }
 
                     // Clean up
@@ -321,7 +339,8 @@
                 },
                 complete: function() {
                     // Find pagination again in case it was replaced
-                    var $currentPagination = $widget.find('.packages-pagination');
+                    var $currentWidget = $('.elementor-widget-travelcurator-packages-grid').first();
+                    var $currentPagination = $currentWidget.find('.packages-pagination');
                     if ($currentPagination.length) {
                         $currentPagination.removeClass('loading');
                     }

@@ -3,7 +3,7 @@
  * Plugin Name: TravelCurator
  * Plugin URI: https://viajareclicar.com.br
  * Description: Plugin completo para agência de viagens Viajar & Clicar - Curadora emocional de experiências de viagem.
- * Version: 1.0.11
+ * Version: 1.0.12
  * Author: Viajar & Clicar
  * Text Domain: travelcurator
  * Domain Path: /languages
@@ -22,7 +22,7 @@ if (!defined('WPINC')) {
 /**
  * Currently plugin version.
  */
-define('TRAVELCURATOR_VERSION', '1.0.11');
+define('TRAVELCURATOR_VERSION', '1.0.12');
 define('TRAVELCURATOR_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('TRAVELCURATOR_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('TRAVELCURATOR_PLUGIN_BASENAME', plugin_basename(__FILE__));
