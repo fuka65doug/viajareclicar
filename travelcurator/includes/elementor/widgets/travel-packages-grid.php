@@ -1125,15 +1125,14 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                                     <span class="placeholder-icon">📸</span>
                                     <span class="placeholder-text">Sem imagem</span>
                                 </div>
+                                <!-- Centered Icon (only in placeholder) -->
+                                <div class="card-icon"><?php echo $purpose_icon; ?></div>
                             <?php endif; ?>
 
                             <!-- Purpose Badge (Top-Left) -->
                             <?php if ($purposes && !is_wp_error($purposes)) : ?>
                                 <div class="purpose-badge"><?php echo esc_html($purposes[0]->name); ?></div>
                             <?php endif; ?>
-
-                            <!-- Centered Icon -->
-                            <div class="card-icon"><?php echo $purpose_icon; ?></div>
                         </div>
 
                         <div class="card-content">
