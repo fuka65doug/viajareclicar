@@ -19,6 +19,62 @@ class TravelCurator_Meta_Boxes {
         add_action('add_meta_boxes', array($this, 'add_meta_boxes'));
         add_action('save_post', array($this, 'save_meta_boxes'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
+
+        // Run migration on admin init
+        add_action('admin_init', array($this, 'maybe_migrate_gallery_to_featured'));
+    }
+
+    /**
+     * Migrate gallery images to featured images (one-time migration)
+     */
+    public function maybe_migrate_gallery_to_featured() {
+        // Check if migration has already run
+        $migration_done = get_option('travelcurator_gallery_migrated', false);
+
+        if ($migration_done) {
+            return;
+        }
+
+        // Get all travel packages
+        $packages = get_posts(array(
+            'post_type' => 'travel_package',
+            'posts_per_page' => -1,
+            'post_status' => 'any'
+        ));
+
+        $migrated_count = 0;
+
+        foreach ($packages as $package) {
+            // Check if package has a gallery but no featured image
+            $gallery = get_post_meta($package->ID, '_travelcurator_gallery', true);
+            $has_thumbnail = has_post_thumbnail($package->ID);
+
+            if (!empty($gallery) && !$has_thumbnail) {
+                $gallery_ids = explode(',', $gallery);
+                $first_image_id = intval($gallery_ids[0]);
+
+                if ($first_image_id > 0) {
+                    // Set the first gallery image as featured image
+                    set_post_thumbnail($package->ID, $first_image_id);
+                    $migrated_count++;
+                }
+            }
+        }
+
+        // Mark migration as complete
+        update_option('travelcurator_gallery_migrated', true);
+
+        // Show admin notice if any migrations occurred
+        if ($migrated_count > 0) {
+            add_action('admin_notices', function() use ($migrated_count) {
+                echo '<div class="notice notice-success is-dismissible">';
+                echo '<p><strong>TravelCurator:</strong> ' . sprintf(
+                    __('%d pacote(s) migrado(s) com sucesso. Imagens da galeria foram convertidas para imagem destacada.', 'travelcurator'),
+                    $migrated_count
+                ) . '</p>';
+                echo '</div>';
+            });
+        }
     }
 
     /**
@@ -61,14 +117,15 @@ class TravelCurator_Meta_Boxes {
             'default'
         );
 
-        add_meta_box(
-            'travelcurator_package_gallery',
-            __('Galeria de Imagens', 'travelcurator'),
-            array($this, 'package_gallery_callback'),
-            'travel_package',
-            'normal',
-            'default'
-        );
+        // Gallery removed - now using only Featured Image
+        // add_meta_box(
+        //     'travelcurator_package_gallery',
+        //     __('Galeria de Imagens', 'travelcurator'),
+        //     array($this, 'package_gallery_callback'),
+        //     'travel_package',
+        //     'normal',
+        //     'default'
+        // );
 
         add_meta_box(
             'travelcurator_package_itinerary',
@@ -812,14 +869,14 @@ class TravelCurator_Meta_Boxes {
             }
         }
 
-        // Save gallery
-        if (isset($_POST['travelcurator_package_gallery_nonce']) && 
-            wp_verify_nonce($_POST['travelcurator_package_gallery_nonce'], 'travelcurator_package_gallery')) {
-            
-            if (isset($_POST['travelcurator_gallery'])) {
-                update_post_meta($post_id, '_travelcurator_gallery', sanitize_text_field($_POST['travelcurator_gallery']));
-            }
-        }
+        // Gallery removed - now using only Featured Image
+        // if (isset($_POST['travelcurator_package_gallery_nonce']) &&
+        //     wp_verify_nonce($_POST['travelcurator_package_gallery_nonce'], 'travelcurator_package_gallery')) {
+        //
+        //     if (isset($_POST['travelcurator_gallery'])) {
+        //         update_post_meta($post_id, '_travelcurator_gallery', sanitize_text_field($_POST['travelcurator_gallery']));
+        //     }
+        // }
 
         // Save itinerary
         if (isset($_POST['travelcurator_package_itinerary_nonce']) && 
