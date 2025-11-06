@@ -680,6 +680,284 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
         );
 
         $this->end_controls_section();
+
+        // Pagination Style Section
+        $this->start_controls_section(
+            'pagination_style_section',
+            [
+                'label' => 'Paginação',
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+                'condition' => [
+                    'show_pagination' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'pagination_bg_color',
+            [
+                'label' => 'Cor de Fundo',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#ffffff',
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination .page-numbers' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'pagination_text_color',
+            [
+                'label' => 'Cor do Texto',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#1A3A5F',
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination .page-numbers' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'pagination_border_color',
+            [
+                'label' => 'Cor da Borda',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#e8e8e8',
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination .page-numbers' => 'border-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'pagination_hover_heading',
+            [
+                'label' => 'Estado Hover',
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'pagination_hover_bg_color',
+            [
+                'label' => 'Cor de Fundo (Hover)',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#1A3A5F',
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination .page-numbers:hover:not(.current):not(.dots)' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'pagination_hover_text_color',
+            [
+                'label' => 'Cor do Texto (Hover)',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#ffffff',
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination .page-numbers:hover:not(.current):not(.dots)' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'pagination_hover_border_color',
+            [
+                'label' => 'Cor da Borda (Hover)',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#1A3A5F',
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination .page-numbers:hover:not(.current):not(.dots)' => 'border-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'pagination_active_heading',
+            [
+                'label' => 'Estado Ativo',
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'pagination_active_bg_color',
+            [
+                'label' => 'Cor de Fundo (Ativo)',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#D4B254',
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination .page-numbers.current' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'pagination_active_text_color',
+            [
+                'label' => 'Cor do Texto (Ativo)',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#ffffff',
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination .page-numbers.current' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'pagination_active_border_color',
+            [
+                'label' => 'Cor da Borda (Ativo)',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#D4B254',
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination .page-numbers.current' => 'border-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'pagination_typography_heading',
+            [
+                'label' => 'Tipografia',
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'pagination_typography',
+                'label' => 'Tipografia',
+                'selector' => '{{WRAPPER}} .packages-pagination .page-numbers',
+            ]
+        );
+
+        $this->add_control(
+            'pagination_spacing_heading',
+            [
+                'label' => 'Espaçamento',
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'pagination_button_width',
+            [
+                'label' => 'Largura do Botão',
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 30,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 45,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination .page-numbers' => 'min-width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'pagination_button_spacing',
+            [
+                'label' => 'Espaço Entre Botões',
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 20,
+                        'step' => 1,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 5,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination .page-numbers' => 'margin: 0 {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'pagination_border_radius',
+            [
+                'label' => 'Arredondamento das Bordas',
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 50,
+                        'step' => 1,
+                    ],
+                    '%' => [
+                        'min' => 0,
+                        'max' => 50,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 8,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination .page-numbers' => 'border-radius: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'pagination_margin',
+            [
+                'label' => 'Margem da Paginação',
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'default' => [
+                    'top' => 60,
+                    'right' => 0,
+                    'bottom' => 0,
+                    'left' => 0,
+                    'unit' => 'px',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'pagination_padding',
+            [
+                'label' => 'Espaçamento Interno da Área',
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'default' => [
+                    'top' => 40,
+                    'right' => 20,
+                    'bottom' => 40,
+                    'left' => 20,
+                    'unit' => 'px',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .packages-pagination' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
     }
 
     protected function render() {
@@ -829,11 +1107,23 @@ class TravelCurator_Packages_Grid_Widget extends \Elementor\Widget_Base {
                     <!-- NEW CARD DESIGN -->
                     <article class="package-card" data-purpose="<?php echo esc_attr($purpose_slug); ?>">
                         <div class="card-image">
-                            <?php if (has_post_thumbnail()) : ?>
-                                <?php the_post_thumbnail('large'); ?>
+                            <?php
+                            $thumbnail_id = get_post_thumbnail_id($package_id);
+                            if ($thumbnail_id) :
+                                $image_url = wp_get_attachment_image_url($thumbnail_id, 'large');
+                                $image_alt = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
+                                if (empty($image_alt)) {
+                                    $image_alt = get_the_title();
+                                }
+                            ?>
+                                <img src="<?php echo esc_url($image_url); ?>"
+                                     alt="<?php echo esc_attr($image_alt); ?>"
+                                     class="package-featured-image"
+                                     loading="lazy">
                             <?php else : ?>
-                                <div style="width:100%;height:100%;background:#e8e8e8;display:flex;align-items:center;justify-content:center;">
-                                    <span style="font-size:48px;color:#ccc;">📸</span>
+                                <div class="package-placeholder-image">
+                                    <span class="placeholder-icon">📸</span>
+                                    <span class="placeholder-text">Sem imagem</span>
                                 </div>
                             <?php endif; ?>
 
